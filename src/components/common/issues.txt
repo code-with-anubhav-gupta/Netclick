@@ -1,0 +1,104 @@
+const validateStep = () => {
+  const currentFields = popupSteps[currentStep].fields;
+  const newErrors = {};
+  let isValid = true;
+
+  currentFields.forEach((field) => {
+    if (field.required && !formData[field.name]) {
+      if (field.name === "phone" && formData.countryCode && formData.phone) {
+        return;
+      }
+      newErrors[field.name] = "This field is required";
+      isValid = false;
+    }
+  });
+
+  setErrors(newErrors);
+  return isValid;
+};
+
+const handleImageChange = (e) => {
+  const files = Array.from(e.target.files);
+  if (files.length + selectedImages.length > 3) {
+    alert("You can only upload up to 3 images");
+    return;
+  }
+
+  const newImages = files.map((file) => ({
+    url: URL.createObjectURL(file),
+    file: file,
+  }));
+
+  setSelectedImages((prev) => [...prev, ...newImages]);
+  setFormData((prev) => ({
+    ...prev,
+    images: [...(prev.images || []), ...files],
+  }));
+};
+
+const removeImage = (index) => {
+  setSelectedImages((prev) => prev.filter((_, i) => i !== index));
+  setFormData((prev) => ({
+    ...prev,
+    images: prev.images.filter((_, i) => i !== index),
+  }));
+};
+
+const handleNext = () => {
+  if (validateStep()) {
+    if (currentStep === popupSteps.length - 1) {
+      alert("Your details have been uploaded successfully.");
+      setShowAddressPopup(false);
+      setCurrentStep(0);
+      setFormData({});
+    } else {
+      setCurrentStep((prev) => prev + 1);
+    }
+  }
+};
+
+const handleBack = () => {
+  if (currentStep === 0) {
+    setShowAddressPopup(false);
+  } else {
+    setCurrentStep((prev) => prev - 1);
+  }
+};
+
+<div className="mb-4">
+  <input
+    type="file"
+    ref={fileInputRef}
+    className="hidden"
+    accept="image/*"
+    multiple
+    onChange={handleImageChange}
+  />
+  <div className="flex flex-wrap gap-2 mb-2">
+    {selectedImages.map((img, index) => (
+      <div key={index} className="relative w-20 h-20">
+        <img
+          src={img.url}
+          alt={`Upload ${index + 1}`}
+          className="w-full h-full object-cover rounded"
+        />
+        <button
+          type="button"
+          onClick={() => removeImage(index)}
+          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+        >
+          ×
+        </button>
+      </div>
+    ))}
+    {selectedImages.length < 3 && (
+      <button
+        type="button"
+        onClick={() => fileInputRef.current?.click()}
+        className="w-20 h-20 border-2 border-dashed border-gray-300 rounded flex items-center justify-center"
+      >
+        <BsImage className="text-2xl text-gray-400" />
+      </button>
+    )}
+  </div>
+</div>;

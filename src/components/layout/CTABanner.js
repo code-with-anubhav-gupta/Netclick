@@ -1,32 +1,37 @@
-'use client'
-import Image from 'next/image'
+"use client";
+import Image from "next/image";
+
 const CTABanner = () => {
   return (
-     <section className="max-w-7xl mx-auto my-12 px-4 md:px-28 relative">
-            <div className=" bg-amber-500 rounded-lg p-8 flex flex-wrap">
-              <div className="w-full md:w-[70%]">
-                <h2 className="text-xl md:text-4xl  font-bold text-black mb-3">
-                  Find the talent needed<br/>to get your Work Done.
-                </h2>
-                <p className="text-black opacity-80 mb-6">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-                <button className="bg-gray-900 text-white px-6 py-3 mb-5 md:mb-0 rounded-4xl">
-                  Get Started
-                </button>
-              </div>
-              <div className="w-full md:w-[30%] relative flex items-center justify-center">
-                <div className="absolute -bottom-8 -right-8 sm:right-0 md:-bottom-8 md:w-full  lg:-top-35 lg:left-5 lg:w-full lg:h-full">
-                  <Image src="/assets/image/men&Women.png" alt="Professionals" 
-                  width={500} height={200} 
-                  className='w-full h-32 sm:h-36  md:h-40 lg:-ml-2 lg:h-96 object-cover' 
-                  />
-                </div>
-              </div>
-            </div>
-          </section>
-  )
-}
+    <section className="max-w-7xl mx-auto md:py-10 px-4 sm:px-6 md:px-8 lg:px-20 relative">
+      <div className="bg-[#DFA35B] rounded-lg p-6 sm:p-8 md:p-12 lg:p-16 flex flex-wrap items-center justify-between relative ">
+        <div className="w-full md:w-1/2 lg:w-[55%] relative z-10">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-wider font-extrabold text-black mb-2 sm:mb-3">
+            Find the talent needed
+            <br className="hidden sm:block" />
+            to get your Work Done.
+          </h2>
+          <p className="text-black opacity-80 mb-4 sm:mb-6 max-w-xl text-sm sm:text-base">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+          <button className="bg-[#1C1914] text-white px-3 md:px-8 py-2 sm:py-3 mb-16 sm:mb-5 md:mb-0 rounded-4xl">
+            Get Started
+          </button>
+        </div>
+        <div className="absolute right-20 md:right-36 top-0 bottom-0 w-1/2 flex items-end justify-end">
+          <Image
+            src="/assets/image/get-Started.png"
+            alt="Professionals"
+            width={800}
+            height={800}
+            className="w-auto h-30 sm:h-40 md:h-48 lg:h-[420px] object-contain object-bottom transform translate-x-4 md:translate-x-0"
+            priority
+          />
+        </div>
+      </div>
+    </section>
+  );
+};
 
-export default CTABanner
+export default CTABanner;

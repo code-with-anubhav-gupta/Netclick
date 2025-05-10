@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -16,11 +16,10 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  /* font-family: "Montserrat", sans-serif; */
-  /* font-weight: 800; */
+  font-family: "Noto Sans", "Open Sans","Montserrat";
 }
 
-/* styles/globals.css */
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -29,28 +28,45 @@ body {
   scrollbar-width: none;
 }
 
-/* .hide-scrollbar::-webkit-scrollbar {
-  display: none;
+/* Modern Scrollbar Styles */
+.modern-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #D9A562 #f1f1f1;
 }
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-} */
+
+.modern-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modern-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.modern-scrollbar::-webkit-scrollbar-thumb {
+  background: #D9A562;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.modern-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #b88647;
+}
 
 /* Swiper carousel custom styles */
 .swiper-button-next,
 .swiper-button-prev {
-  color: #000 !important;
+  color: #DFA460 !important;
   width: 40px !important;
   height: 40px !important;
   background: white;
   border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .swiper-button-next:after,
 .swiper-button-prev:after {
-  font-size: 16px !important;
+  font-size: 20px !important;
   font-weight: bold;
 }
 
@@ -61,6 +77,8 @@ body {
 /* Hover effects for carousel cards */
 .swiper-slide {
   transition: transform 0.3s ease;
+  height: auto;
+  display: flex;
 }
 
 .swiper-slide:hover {
@@ -83,4 +101,33 @@ body {
 .custom-next-button:not(:disabled):hover {
   background-color: #f8f8f8;
   border-color: #d1d5db;
+}
+
+.custom-blob {
+  width: 200px;
+  height: 200px;
+  clip-path: path('M40 10 C70 10, 110 0, 140 30 C170 60, 160 110, 130 140 C100 170, 50 180, 30 140 C10 110, 10 60, 40 10 Z');
+  transform: rotateX(40deg) rotateY(20deg) rotateZ(0deg);
+
+}
+
+/* Swiper styles */
+.related-experts-swiper {
+  padding: 20px 0 !important;
+  margin: 0 auto;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.swiper-wrapper {
+  display: flex;
+  align-items: stretch;
+}
+
+.swiper-pagination-bullet {
+  background: #DFA460 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #DFA460 !important;
 }

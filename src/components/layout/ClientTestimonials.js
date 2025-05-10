@@ -16,10 +16,10 @@ const ClientTestimonials = () => {
       id: 1,
       title: "Quality of work was excellent!",
       content:
-        "I needed someone to handle my electrical work and they came through. The service arrived on time!",
+        '“I had a great experience with ABC Electrical on the Services. The electrician arrived on time!!!"',
       user: "Daniel Davis",
       rating: 5,
-      time: "1 hour ago",
+      time: "7 Days Ago",
       service: "Electrical",
       image: "https://picsum.photos/200?random=1",
     },
@@ -27,10 +27,10 @@ const ClientTestimonials = () => {
       id: 2,
       title: "Green Cleaning",
       content:
-        "I love that they used eco-friendly products while still maintaining our cleanliness with care.",
+        "“I love that they use eco-friendly products without compromising on cleanliness with care.”",
       user: "Daniel Davis",
       rating: 5,
-      time: "7 hours ago",
+      time: "7 Days Ago",
       service: "Cleaning",
       image: "https://picsum.photos/200?random=2",
     },
@@ -38,34 +38,12 @@ const ClientTestimonials = () => {
       id: 3,
       title: "Luxury Car Cleaning",
       content:
-        "Used their premium car cleaning service, which provided exceptionally high-quality outcomes with care.",
+        "“I love that they use eco-friendly products without compromising on cleanliness with care.”",
       user: "Daniel Davis",
       rating: 5,
-      time: "7 hours ago",
+      time: "7 Days Ago",
       service: "Car Cleaning",
       image: "https://picsum.photos/200?random=3",
-    },
-    {
-      id: 4,
-      title: "Handyman Services",
-      content:
-        "The handyman fixed all my issues quickly and professionally. Highly recommended!",
-      user: "John Doe",
-      rating: 5,
-      time: "2 days ago",
-      service: "Handyman",
-      image: "https://picsum.photos/200?random=4",
-    },
-    {
-      id: 5,
-      title: "Plumbing Service",
-      content:
-        "Got my plumbing fixed quickly. Excellent service, I am very happy with the outcome.",
-      user: "Jane Smith",
-      rating: 5,
-      time: "3 days ago",
-      service: "Plumbing",
-      image: "https://picsum.photos/200?random=5",
     },
   ];
 
@@ -76,7 +54,7 @@ const ClientTestimonials = () => {
           <h2 className="text-2xl md:text-4xl font-bold mb-2">
             What Our Clients Says
           </h2>
-          <p className="text-gray-800 text-sm">
+          <p className="text-gray-800 font-medium text-sm">
             Each listing is designed to be clear and concise, providing
             customers
           </p>
@@ -93,7 +71,11 @@ const ClientTestimonials = () => {
             disabled={isBeginning}
             aria-label="Previous slide"
           >
-            <svg className="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+            <svg
+              className="w-5 h-5 text-gray-800"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
               <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" />
             </svg>
           </button>
@@ -107,7 +89,11 @@ const ClientTestimonials = () => {
             disabled={isEnd}
             aria-label="Next slide"
           >
-            <svg className="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+            <svg
+              className="w-5 h-5 text-gray-800"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
               <path d="M7.293 4.293a1 1 0 011.414 0L13.707 9.293a1 1 0 010 1.414L8.707 15.707a1 1 0 01-1.414-1.414L11.586 10 7.293 5.707a1 1 0 010-1.414z" />
             </svg>
           </button>
@@ -141,7 +127,7 @@ const ClientTestimonials = () => {
         >
           {testimonials.map((testimonial) => (
             <SwiperSlide key={testimonial.id}>
-              <div className="p-6 bg-white rounded-lg shadow-sm">
+              <div className="md:mx-12 bg-white rounded-lg shadow-sm">
                 <div className="flex text-amber-400 mb-2">
                   {[...Array(5)].map((_, i) => (
                     <svg
@@ -169,7 +155,7 @@ const ClientTestimonials = () => {
                         height={32}
                       />
                     </div>
-                    <span className="text-sm font-medium">
+                    <span className="text-sm font-bold">
                       {testimonial.user}
                     </span>
                   </div>
@@ -184,7 +170,7 @@ const ClientTestimonials = () => {
       </div>
 
       <div className="text-center mt-8">
-        <p className="text-sm text-gray-800 mb-3">
+        <p className="text-sm font-bold text-gray-800 mb-3">
           Each listing is designed to be clear and concise, providing customers
         </p>
         <div className="flex items-center justify-center space-x-1">
@@ -193,13 +179,13 @@ const ClientTestimonials = () => {
             {[...Array(5)].map((_, i) => (
               <div
                 key={i}
-                className="w-5 h-5 bg-green-800 ml-1 text-white text-xs flex items-center justify-center"
+                className="w-5 h-5 bg-green-700 ml-1 text-white text-base text-center flex items-center justify-center"
               >
                 ★
               </div>
             ))}
           </div>
-          <span className="text-sm text-gray-500">based on 166 reviews</span>
+          <span className="text-sm text-gray-500">Based on 456 reviews</span>
         </div>
       </div>
 

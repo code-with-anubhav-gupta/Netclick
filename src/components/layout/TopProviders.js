@@ -4,7 +4,6 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 
-
 import "swiper/css";
 
 const TopProviders = () => {
@@ -16,72 +15,40 @@ const TopProviders = () => {
     {
       id: 1,
       name: "William Miller",
-      reviews: 11,
+      star: '5.0',
+      reviews: 2,
       image: "https://picsum.photos/200?random=1",
     },
     {
       id: 2,
       name: "Sophia Taylor",
-      reviews: 9,
+      star: '4.3',
+      reviews: 3,
       image: "https://picsum.photos/200?random=2",
     },
     {
       id: 3,
       name: "Sarah Brown",
-      reviews: 15,
+      star: '3.0',
+      reviews: 3,
       image: "https://picsum.photos/200?random=3",
     },
     {
       id: 4,
       name: "Olivia Clark",
-      reviews: 17,
+      star: '5.0',
+      reviews: 2,
       image: "https://picsum.photos/200?random=4",
-    },
-    {
-      id: 5,
-      name: "Daniel Smith",
-      reviews: 22,
-      image: "https://picsum.photos/200?random=5",
-    },
-    {
-      id: 6,
-      name: "Emma Wilson",
-      reviews: 13,
-      image: "https://picsum.photos/200?random=7",
-    },
-    {
-      id: 7,
-      name: "Emma Wilson",
-      reviews: 13,
-      image: "https://picsum.photos/200?random=8",
-    },
-    {
-      id: 8,
-      name: "Emma Wilson",
-      reviews: 13,
-      image: "https://picsum.photos/200?random=9",
-    },
-    {
-      id: 9,
-      name: "Emma Wilson",
-      reviews: 13,
-      image: "https://picsum.photos/200?random=10",
-    },
-    {
-      id: 10,
-      name: "Emma Wilson",
-      reviews: 13,
-      image: "https://picsum.photos/200?random=11",
     },
   ];
 
   return (
-    <section className="max-w-7xl mx-auto my-12 px-6 relative">
-      <div className="flex justify-between items-center mb-8">
-        <div className="md:ml-20  md:w-full md:flex md:flex-col md:justify-center md:items-center">
+    <section className="max-w-7xl mx-auto py-10 md:py-8 px-5 md:px-20 relative">
+      <div className="w-full flex justify-between items-center mb-8">
+        <div className="w-full flex flex-col md:justify-center md:items-center md:ml-20 ">
           <h2 className="text-2xl md:text-4xl font-bold mb-2">Top Providers</h2>
-          <p className="text-gray-500 text-sm">
-            Get better opportunities on 500+ skills
+          <p className="text-gray-500 font-medium text-sm">
+          Get some Inspirations from 50K+ skills
           </p>
         </div>
 
@@ -96,7 +63,11 @@ const TopProviders = () => {
             disabled={isBeginning}
             aria-label="Previous slide"
           >
-            <svg className="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+            <svg
+              className="w-5 h-5 text-gray-800"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
               <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" />
             </svg>
           </button>
@@ -110,7 +81,11 @@ const TopProviders = () => {
             disabled={isEnd}
             aria-label="Next slide"
           >
-            <svg className="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+            <svg
+              className="w-5 h-5 text-gray-800"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
               <path d="M7.293 4.293a1 1 0 011.414 0L13.707 9.293a1 1 0 010 1.414L8.707 15.707a1 1 0 01-1.414-1.414L11.586 10 7.293 5.707a1 1 0 010-1.414z" />
             </svg>
           </button>
@@ -153,14 +128,14 @@ const TopProviders = () => {
                   height={64}
                 />
               </div>
-              <h3 className="font-medium">{provider.name}</h3>
+              <h3 className="font-bold mb-3">{provider.name}</h3>
               <div className="flex items-center justify-center mb-3">
                 <div className="flex text-amber-400">
-                  {[...Array(5)].map((_, i) => (
+                  {[...Array(1)].map((_, i) => (
                     <svg
                       key={i}
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-3 w-3"
+                      className="h-4 w-4 text-black font-extrabold"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                     >
@@ -169,24 +144,17 @@ const TopProviders = () => {
                   ))}
                 </div>
                 <span className="text-xs text-gray-500 ml-1">
-                  ({provider.reviews} Reviews)
+                  {provider.star} ({provider.reviews} Reviews)
                 </span>
               </div>
               <a
-                href="#"
-                className="text-xs text-gray-600 border border-gray-200 rounded-md px-3 py-1 inline-block"
+                href={`/provider`}
+                className="text-xs font-bold text-black px-3 py-1 inline-block"
               >
                 View Profile
-                <svg
-                  className="inline-block ml-3 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 25 25"
-                >
-                  <path
-                    style={{ fill: "#232326" }}
-                    d="m17.5 5.999-.707.707 5.293 5.293H1v1h21.086l-5.294 5.295.707.707L24 12.499l-6.5-6.5z"
-                    data-name="Right"
-                  />
+                {/*  */}
+                <svg xmlns="http://www.w3.org/2000/svg" className="inline-block font-extrabold w-4 ml-1"  viewBox="0 0 25 25" >
+                  <path d="M11.293 4.707 17.586 11H4v2h13.586l-6.293 6.293 1.414 1.414L21.414 12l-8.707-8.707-1.414 1.414z" />
                 </svg>
               </a>
             </div>

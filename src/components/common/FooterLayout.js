@@ -1,11 +1,9 @@
 import Footer from "@/components/common/Footer";
 import SkeletonFooter from "@/components/common/SkeletonFooter";
+import { useAppContext } from "@/context/Context";
 
-const FooterLayout = ({ loading }) => {
-  return (
-    <div>
-      {loading ? <SkeletonFooter /> : <Footer />}
-    </div>
-  );
+const FooterLayout = () => {
+  const { loading } = useAppContext();
+  return <div>{loading ? <SkeletonFooter /> : <Footer />}</div>;
 };
 export default FooterLayout;
