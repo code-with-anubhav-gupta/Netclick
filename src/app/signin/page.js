@@ -3,8 +3,8 @@ import Link from "next/link";
 
 const Page = () => {
   return (
-    <div className="min-h-screen bg-zinc-300 flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white text-black p-8 rounded-xl shadow-lg">
+    <div className="min-h-screen bg-white flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 text-black p-8 rounded-xl shadow-2xl">
         <div className="text-left space-y-6">
           <div className="relative flex flex-col sm:block items-start">
             <div className="flex flex-row-reverse sm:flex-col items-center sm:mb-4 gap-6 sm:gap-0 justify-between">
@@ -88,7 +88,7 @@ const Page = () => {
             <Link href="/customer">Sign In</Link>
           </button>
 
-          <div className="text-center text-sm text-gray-500">
+          {/* <div className="text-center text-sm text-gray-500">
             or Sign in with...
           </div>
 
@@ -109,7 +109,7 @@ const Page = () => {
                 height={54}
               />
             </button>
-          </div>
+          </div> */}
 
           <p className="text-center text-sm text-gray-600">
             Don't have Account?{" "}

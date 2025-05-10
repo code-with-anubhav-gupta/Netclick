@@ -119,11 +119,11 @@ const Navbar = () => {
           </div>
         ) : (
           <div className="hidden md:flex items-center space-x-4">
-            <Link href='/signup' className="flex items-center px-1 py-2 text-gray-800 font-light md:text-sm sm:px-3 sm:py-2 md:px-4 tracking-tighter md:py-2 rounded-2xl md:rounded-4xl hover:outline hover:outline-amber-500 cursor-pointer">
+            <Link href='/signin' className="flex items-center px-1 py-2 text-gray-800 font-light md:text-sm sm:px-3 sm:py-2 md:px-4 tracking-tighter md:py-2 rounded-2xl md:rounded-4xl hover:outline hover:outline-amber-500 cursor-pointer">
               <FaRegCircleUser className="h-4 w-4 mr-1" />
               Sign in
             </Link>
-            <Link href='/providersecond' className="bg-[#1C1914] text-white px-1 py-2 font-light sm:px-3 sm:py-2 md:px-4 md:py-2 rounded-lg md:rounded-4xl hover:text-[#F5B23D] cursor-pointer text-sm">
+            <Link href='#' className="bg-[#1C1914] text-white px-1 py-2 font-light sm:px-3 sm:py-2 md:px-4 md:py-2 rounded-lg md:rounded-4xl hover:text-[#F5B23D] cursor-pointer text-sm">
               Contact us
             </Link>
           </div>
@@ -270,7 +270,7 @@ const Navbar = () => {
             ) : (
               <>
                 <li className="pt-4">
-                  <button className="flex items-center justify-center w-full text-gray-800 font-light text-sm px-3 py-2 rounded-4xl border border-amber-500 hover:outline hover:outline-amber-500 cursor-pointer">
+                  <Link href='/signin' className="flex items-center justify-center w-full text-gray-800 font-light text-sm px-3 py-2 rounded-4xl border border-amber-500 hover:outline hover:outline-amber-500 cursor-pointer">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-4 w-4 mr-1"
@@ -286,7 +286,7 @@ const Navbar = () => {
                       />
                     </svg>
                     Sign in
-                  </button>
+                  </Link>
                 </li>
                 <li>
                   <button className="w-full bg-[#1C1914] text-white py-2 px-3 rounded-4xl hover:text-[#F5B23D] cursor-pointer text-sm">
