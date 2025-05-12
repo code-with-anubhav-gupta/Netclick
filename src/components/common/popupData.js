@@ -77,7 +77,7 @@ export const popupSteps = [
   },
   {
     id: 5,
-    title: "What's your e-mail address?",
+    title: "What&apos;s your e-mail address?",
     fields: [
       {
         type: "email",

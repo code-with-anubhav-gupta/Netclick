@@ -243,11 +243,11 @@ export default function Page() {
             <select
               name="service"
               value={profileData.service}
-              placeholder="Service you're Looking"
+              placeholder="Service you&#39;re Looking"
               onChange={handleEditChange}
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all outline-none"
             >
-              <option value="">Service you're Looking</option>
+              <option value="">Service you&apos;re Looking</option>
               <option value="service1">Service 1</option>
               <option value="service2">Service 2</option>
               <option value="service3">Service 3</option>

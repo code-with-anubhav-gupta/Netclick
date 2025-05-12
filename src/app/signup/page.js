@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -31,9 +31,11 @@ const Page = () => {
             <div>
               <div className="flex items-center border-b-2 border-gray-200">
                 <span className="text-gray-500 mr-2">
-                  <img
+                  <Image
                     src="/assets/image/Name.png"
                     alt="icon"
+                    width={100}
+                    height={100}
                     className="h-5 w-5"
                   />
                 </span>
@@ -48,9 +50,11 @@ const Page = () => {
             <div>
               <div className="flex items-center border-b-2 border-gray-200">
                 <span className="text-gray-500 mr-2">
-                  <img
+                  <Image
                     src="/assets/image/phone.png"
                     alt="icon"
+                    width={100}
+                    height={100}
                     className="h-5 w-5"
                   />
                 </span>
@@ -66,9 +70,11 @@ const Page = () => {
               <div>
                 <div className="flex items-center border-b-2 border-gray-200">
                   <span className="text-gray-500 mr-2">
-                    <img
+                    <Image
                       src="/assets/image/category.png"
                       alt="icon"
+                      width={100}
+                      height={100}
                       className="h-5 w-5"
                     />
                   </span>
@@ -84,9 +90,11 @@ const Page = () => {
             <div>
               <div className="flex items-center border-b-2 border-gray-200">
                 <span className="text-gray-500 mr-2">
-                  <img
+                  <Image
                     src="/assets/image/Email.png"
                     alt="icon"
+                    width={100}
+                    height={100}
                     className="h-5 w-5"
                   />
                 </span>
@@ -101,9 +109,11 @@ const Page = () => {
             <div>
               <div className="flex items-center border-b-2 border-gray-200">
                 <span className="text-gray-500 mr-2">
-                  <img
+                  <Image
                     src="/assets/image/password.png"
                     alt="icon"
+                    width={100}
+                    height={100}
                     className="h-5 w-5"
                   />
                 </span>
@@ -140,7 +150,7 @@ const Page = () => {
         </form>
 
         <p className="text-center text-sm text-gray-600">
-          Don't have Account?{" "}
+          Don&apos;t have Account?{" "}
           <Link
             href="/signin"
             className="text-orange-400 hover:text-orange-500 italic font-bold underline"

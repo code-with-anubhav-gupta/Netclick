@@ -15,10 +15,7 @@ const AddressPopup = () => {
   const { showAddressPopup, setShowAddressPopup } = useAppContext();
 
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState({
-    images: [],
-    duration: "4:00", // Set default duration to 4:00 (Classic option)
-  });
+  const [formData, setFormData] = useState({ images: [] }); // Initialize with empty images array
   const [errors, setErrors] = useState({});
   const [selectedImages, setSelectedImages] = useState([]);
   const [charCount, setCharCount] = useState(0); // Changed from wordCount to charCount
@@ -242,7 +239,7 @@ const AddressPopup = () => {
 
   const renderField = (field) => {
     const commonClasses =
-      "w-full px-6 py-2 border border-gray-400 rounded-4xl mb-1 focus:outline-none placeholder:text-sm"; // Removed placeholder:px-3 and increased px to 6
+      "w-full px-3 py-2 border border-gray-400 rounded-4xl mb-1 focus:outline-none placeholder:text-sm placeholder:px-3";
 
     switch (field.type) {
       case "text":
@@ -261,7 +258,7 @@ const AddressPopup = () => {
               }`}
               value={formData[field.name] || ""}
               onChange={(e) => handleInputChange(e, field.name)}
-              maxLength={field.name === "title" ? 80 : undefined}
+              maxLength={field.name === "title" ? 80 : undefined} // Set maxLength to 80 for title field
             />
           </div>
         );
@@ -282,7 +279,7 @@ const AddressPopup = () => {
             className={`${
               field.type === "text"
                 ? commonClasses
-                : "w-full px-6 py-2 border border-gray-400 rounded-xl mb-1 focus:outline-none placeholder:text-sm"
+                : "w-full px-3 py-2 border border-gray-400 rounded-xl mb-1 focus:outline-none placeholder:text-sm placeholder:px-3"
             } mt-2 min-h-[100px]`}
             value={formData[field.name] || ""}
             onChange={(e) => handleInputChange(e, field.name)}
@@ -307,7 +304,7 @@ const AddressPopup = () => {
               value={formData[field.name] || ""}
               onChange={(e) => handleInputChange(e, field.name)}
             />
-            <button className="bg-[#DDA25F] absolute bottom-[9px] right-3 text-white h-8 w-8 flex items-center justify-center rounded-full cursor-pointer">
+            <button className="bg-[#DDA25F] absolute bottom-[9px] right-3 text-white h-8 w-8  flex items-center justify-center rounded-full cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 rounded-full"
@@ -413,11 +410,9 @@ const AddressPopup = () => {
             <div className="flex flex-wrap gap-2 mb-2">
               {selectedImages.map((img, index) => (
                 <div key={index} className="relative w-20 h-20">
-                  <Image
+                  <img
                     src={img.url}
                     alt={`Upload ${index + 1}`}
-                    width={100}
-                    height={100}
                     className="w-full h-full object-cover rounded"
                   />
                   <button
@@ -508,20 +503,15 @@ const AddressPopup = () => {
               >
                 <div className="w-full h-full flex flex-col justify-start items-start">
                   <div
-                    className={`relative w-full min-h-[120px] flex flex-col gap-3 items-center justify-center rounded-xl p-4 border cursor-pointer ${
-                      formData[field.name] === option.value
-                        ? "border-2 border-blue-400"
-                        : "border-gray-200 hover:border-2 hover:border-blue-400"
-                    }`}
-                    onClick={() => {
+                    className="relative w-full min-h-[120px] hover:border-2 flex flex-col gap-3 items-center justify-center rounded-xl hover:border-blue-400 p-4 border border-gray-200 cursor-pointer"
+                    onClick={() =>
                       handleInputChange(
                         { target: { value: option.value } },
                         field.name
-                      );
-                      setSelectedTime(option.value);
-                    }}
+                      )
+                    }
                   >
-                    {formData[field.name] === option.value && (
+                    {!option.value && (
                       <span className="bg-white text-blue-500 text-lg font-bold absolute -top-2 -right-1">
                         <HiMiniCheckCircle />
                       </span>
@@ -623,7 +613,7 @@ const AddressPopup = () => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div
-        className="fixed inset-0  bg-black opacity-50"
+        className="fixed inset-0 bg-black opacity-50"
         onClick={() => setShowAddressPopup(false)}
       ></div>
 

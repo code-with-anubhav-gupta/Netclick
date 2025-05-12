@@ -112,7 +112,7 @@ const Page = () => {
           </div> */}
 
           <p className="text-center text-sm text-gray-600">
-            Don't have Account?{" "}
+            Don&apos;t have Account?{" "}
             <Link
               href="/signup"
               className="text-orange-400 hover:text-orange-500 font-medium italic underline bold"

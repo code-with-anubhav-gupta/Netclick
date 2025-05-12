@@ -5,7 +5,8 @@ import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
-import {images} from '../../../public/assets/image/index.js'
+import { images } from "../../../public/assets/image/index.js";
+import Image from "next/image";
 
 const RelatedExperts = () => {
   const [isBeginning, setIsBeginning] = useState(true);
@@ -18,7 +19,7 @@ const RelatedExperts = () => {
       role: "Plumber",
       rating: "5.0",
       reviews: "38",
-      image: '/assets/image/Men.jpg',
+      image: "/assets/image/Men.jpg",
       hourlyRate: "15",
       qualities: [
         "Dynamic and smiling",
@@ -70,7 +71,9 @@ const RelatedExperts = () => {
   return (
     <div className="relative mx-auto">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl text-black mb-10 font-bold">Related Experts...</h2>
+        <h2 className="text-2xl text-black mb-10 font-bold">
+          Related Experts...
+        </h2>
         <div className="flex gap-2">
           <button
             onClick={() => swiperRef.current?.slidePrev()}
@@ -167,9 +170,11 @@ const RelatedExperts = () => {
             <div className="text-black hover:hover:shadow-2xl rounded-lg overflow-hidden h-full cursor-pointer transition-all">
               <div className="relative flex items-center justify-start">
                 <div className="mx-3 h-28 w-28 overflow-hidden rounded-full bg-white shadow-lg">
-                  <img
+                  <Image
                     src={expert.image}
                     alt={expert.name}
+                    width={100}
+                    height={100}
                     className="w-full h-full bg-cover "
                   />
                 </div>

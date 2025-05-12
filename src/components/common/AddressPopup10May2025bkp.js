@@ -6,28 +6,19 @@ import { popupSteps, countryCodesList } from "./popupData";
 import { BiSolidCheckShield } from "react-icons/bi";
 import { BsImage } from "react-icons/bs";
 import Link from "next/link";
+
 import Image from "next/image";
-import { HiMiniCheckCircle } from "react-icons/hi2";
-import { getCountries } from "react-phone-number-input/input";
-import en from "react-phone-number-input/locale/en";
 
 const AddressPopup = () => {
   const { showAddressPopup, setShowAddressPopup } = useAppContext();
 
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState({
-    images: [],
-    duration: "4:00", // Set default duration to 4:00 (Classic option)
-  });
+  const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
   const [selectedImages, setSelectedImages] = useState([]);
-  const [charCount, setCharCount] = useState(0); // Changed from wordCount to charCount
-  const [selectedTime, setSelectedTime] = useState("4:00"); // Add state for time
   const fileInputRef = useRef(null);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
-  const [selectedCountryIndex, setSelectedCountryIndex] = useState(
-    countryCodesList.findIndex((country) => country.shortName === "AE")
-  );
+  const [selectedCountryIndex, setSelectedCountryIndex] = useState(0);
 
   useEffect(() => {
     if (showAddressPopup) {
@@ -49,26 +40,13 @@ const AddressPopup = () => {
     const newErrors = {};
     let isValid = true;
 
-    // If this is the photo upload step (id: 3), always return true since it's optional
-    if (popupSteps[currentStep].id === 3) {
-      return true;
-    }
-
     currentFields.forEach((field) => {
-      if (field.required && field.name in formData === false) {
+      if (field.required && !formData[field.name]) {
+        if (field.name === "phone" && formData.countryCode && formData.phone) {
+          return;
+        }
         newErrors[field.name] = "This field is required";
         isValid = false;
-      } else if (field.required && !formData[field.name]) {
-        if (field.name === "phone") {
-          // For phone, we need both the number and country code
-          if (!formData.phone) {
-            newErrors[field.name] = "Phone number is required";
-            isValid = false;
-          }
-        } else {
-          newErrors[field.name] = "This field is required";
-          isValid = false;
-        }
       }
     });
 
@@ -77,26 +55,10 @@ const AddressPopup = () => {
   };
 
   const handleInputChange = (e, fieldName) => {
-    const value = e.target.value;
-
-    if (fieldName === "title") {
-      // Count characters instead of words
-      const count = value.length;
-
-      // Limit to 80 characters
-      if (count <= 80) {
-        setCharCount(count);
-        setFormData((prev) => ({
-          ...prev,
-          [fieldName]: value,
-        }));
-      }
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [fieldName]: value,
-      }));
-    }
+    setFormData((prev) => ({
+      ...prev,
+      [fieldName]: e.target.value,
+    }));
 
     if (errors[fieldName]) {
       setErrors((prev) => ({
@@ -129,13 +91,13 @@ const AddressPopup = () => {
     setSelectedImages((prev) => prev.filter((_, i) => i !== index));
     setFormData((prev) => ({
       ...prev,
-      images: (prev.images || []).filter((_, i) => i !== index),
+      images: prev.images.filter((_, i) => i !== index),
     }));
   };
 
   const handleNext = () => {
     if (validateStep()) {
-      // Special validation for the final step
+      // For the final step, check if checkboxes are checked when required
       if (currentStep === 5) {
         const checkboxes = document.querySelectorAll(
           'input[type="checkbox"][data-required="true"]'
@@ -151,41 +113,18 @@ const AddressPopup = () => {
         }
       }
 
-      // Clear any previous errors
-      setErrors({});
-
-      // Special handling for photo upload step
-      if (popupSteps[currentStep].id === 3) {
-        // Only proceed if Next button is clicked (not auto-proceed)
-        if (currentStep === popupSteps.length - 1) {
-          // Handle final step submission
-          alert("Your details have been uploaded successfully.");
-          setShowAddressPopup(false);
-          setCurrentStep(0);
-          setFormData({});
-        } else {
-          // Move to next step
-          setCurrentStep((prev) => prev + 1);
-        }
+      if (currentStep === popupSteps.length - 1) {
+        alert("Your details have been uploaded successfully.");
+        setShowAddressPopup(false);
+        setCurrentStep(0);
+        setFormData({});
       } else {
-        // For non-photo steps, proceed normally
-        if (currentStep === popupSteps.length - 1) {
-          // Handle final step submission
-          alert("Your details have been uploaded successfully.");
-          setShowAddressPopup(false);
-          setCurrentStep(0);
-          setFormData({});
-        } else {
-          // Move to next step
-          setCurrentStep((prev) => prev + 1);
-        }
+        setCurrentStep((prev) => prev + 1);
       }
     }
   };
 
   const handleBack = () => {
-    // Clear errors when going back
-    setErrors({});
     if (currentStep === 0) {
       setShowAddressPopup(false);
     } else {
@@ -223,47 +162,22 @@ const AddressPopup = () => {
     );
   };
 
-  const adjustTime = (increment) => {
-    const [hours, minutes] = selectedTime.split(":").map(Number);
-    let newHours = hours;
-
-    if (increment) {
-      newHours = (hours + 1) % 24;
-    } else {
-      newHours = (hours - 1 + 24) % 24;
-    }
-
-    const newTime = `${String(newHours).padStart(2, "0")}:${String(
-      minutes
-    ).padStart(2, "0")}`;
-    setSelectedTime(newTime);
-    handleInputChange({ target: { value: newTime } }, "duration");
-  };
-
   const renderField = (field) => {
     const commonClasses =
-      "w-full px-6 py-2 border border-gray-400 rounded-4xl mb-1 focus:outline-none placeholder:text-sm"; // Removed placeholder:px-3 and increased px to 6
+      "w-full px-3 py-2 border border-gray-400 rounded-4xl mb-1 focus:outline-none placeholder:text-sm placeholder:px-3";
 
     switch (field.type) {
       case "text":
         return (
-          <div className="">
-            {field.name === "title" && (
-              <span className="flex justify-end mb-2 text-xs text-gray-500">
-                {charCount}/80
-              </span>
-            )}
-            <input
-              type={field.type}
-              placeholder={field.placeholder}
-              className={`${commonClasses} ${
-                field.name === "lastName" ? "mt-3" : ""
-              }`}
-              value={formData[field.name] || ""}
-              onChange={(e) => handleInputChange(e, field.name)}
-              maxLength={field.name === "title" ? 80 : undefined}
-            />
-          </div>
+          <input
+            type={field.type}
+            placeholder={field.placeholder}
+            className={`${commonClasses} ${
+              field.name === "lastName" ? "mt-3" : ""
+            }`}
+            value={formData[field.name] || ""}
+            onChange={(e) => handleInputChange(e, field.name)}
+          />
         );
       case "password":
         return (
@@ -282,7 +196,7 @@ const AddressPopup = () => {
             className={`${
               field.type === "text"
                 ? commonClasses
-                : "w-full px-6 py-2 border border-gray-400 rounded-xl mb-1 focus:outline-none placeholder:text-sm"
+                : "w-full px-3 py-2 border border-gray-400 rounded-xl mb-1 focus:outline-none placeholder:text-sm placeholder:px-3"
             } mt-2 min-h-[100px]`}
             value={formData[field.name] || ""}
             onChange={(e) => handleInputChange(e, field.name)}
@@ -291,7 +205,7 @@ const AddressPopup = () => {
       case "date":
         return (
           <input
-            type="datetime-local"
+            type="date"
             className={commonClasses}
             value={formData[field.name] || ""}
             onChange={(e) => handleInputChange(e, field.name)}
@@ -307,7 +221,7 @@ const AddressPopup = () => {
               value={formData[field.name] || ""}
               onChange={(e) => handleInputChange(e, field.name)}
             />
-            <button className="bg-[#DDA25F] absolute bottom-[9px] right-3 text-white h-8 w-8 flex items-center justify-center rounded-full cursor-pointer">
+            <button className="bg-[#DDA25F] absolute top-1 right-3 text-white h-8 w-8  flex items-center justify-center rounded-full cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 rounded-full"
@@ -360,7 +274,7 @@ const AddressPopup = () => {
                 <div className="absolute z-50 top-full left-0 mt-1 w-48 max-h-48 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg">
                   {field.countryCodes.map((country) => (
                     <div
-                      key={`${country.shortName}-${country.code}`}
+                      key={country.code}
                       className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
                       onClick={() => {
                         handleInputChange(
@@ -413,11 +327,9 @@ const AddressPopup = () => {
             <div className="flex flex-wrap gap-2 mb-2">
               {selectedImages.map((img, index) => (
                 <div key={index} className="relative w-20 h-20">
-                  <Image
+                  <img
                     src={img.url}
                     alt={`Upload ${index + 1}`}
-                    width={100}
-                    height={100}
                     className="w-full h-full object-cover rounded"
                   />
                   <button
@@ -443,13 +355,15 @@ const AddressPopup = () => {
         );
       case "time-selector":
         return (
-          <div className="grid grid-cols-5 md:grid-cols-6 gap-3">
+          <div className="grid grid-cols-4 md:grid-cols-6 gap-2">
             {field.options.map((time) => (
               <button
                 key={time}
                 type="button"
                 className={`p-2 bg-[#E9EAEC] text-xs  rounded-full ${
-                  formData[field.name] === time && "font-bold"
+                  formData[field.name] === time
+                    && "font-bold"
+                   
                 } cursor-pointer`}
                 onClick={() =>
                   handleInputChange({ target: { value: time } }, field.name)
@@ -462,10 +376,10 @@ const AddressPopup = () => {
         );
       case "number-selector":
         return (
-          <div className="flex items-center justify-center gap-6">
+          <div className="flex items-center justify-center gap-4">
             <button
               type="button"
-              className="w-10 h-10 rounded-full text-2xl bg-blue-500 text-white hover:bg-blue-600 cursor-pointer"
+              className="w-8 h-8 rounded-full bg-blue-100 text-blue-500"
               onClick={() => {
                 const currentValue = Number(formData[field.name] || 1);
                 if (currentValue > field.min) {
@@ -478,12 +392,12 @@ const AddressPopup = () => {
             >
               -
             </button>
-            <span className="text-3xl font-semibold">
+            <span className="text-xl font-semibold">
               {formData[field.name] || 1}
             </span>
             <button
               type="button"
-              className="w-10 h-10 rounded-full text-2xl bg-blue-500 text-white hover:bg-blue-600 cursor-pointer"
+              className="w-8 h-8 rounded-full bg-blue-100 text-blue-500"
               onClick={() => {
                 const currentValue = Number(formData[field.name] || 1);
                 if (currentValue < field.max) {
@@ -500,85 +414,33 @@ const AddressPopup = () => {
         );
       case "duration-selector":
         return (
-          <div className="grid  grid-cols-3 gap-1">
+          <div className="space-y-3">
             {field.options.map((option) => (
               <div
                 key={option.value}
-                className="relative flex flex-col gap-3 justify-center items-center h-full"
+                className={`p-4 border rounded-lg cursor-pointer ${
+                  formData[field.name] === option.value
+                    ? "border-[#D9A562] bg-orange-50"
+                    : "border-gray-300"
+                }`}
+                onClick={() =>
+                  handleInputChange(
+                    { target: { value: option.value } },
+                    field.name
+                  )
+                }
               >
-                <div className="w-full h-full flex flex-col justify-start items-start">
-                  <div
-                    className={`relative w-full min-h-[120px] flex flex-col gap-3 items-center justify-center rounded-xl p-4 border cursor-pointer ${
-                      formData[field.name] === option.value
-                        ? "border-2 border-blue-400"
-                        : "border-gray-200 hover:border-2 hover:border-blue-400"
-                    }`}
-                    onClick={() => {
-                      handleInputChange(
-                        { target: { value: option.value } },
-                        field.name
-                      );
-                      setSelectedTime(option.value);
-                    }}
-                  >
-                    {formData[field.name] === option.value && (
-                      <span className="bg-white text-blue-500 text-lg font-bold absolute -top-2 -right-1">
-                        <HiMiniCheckCircle />
-                      </span>
-                    )}
-
-                    <Image
-                      src="https://picsum.photos/200/300"
-                      alt={`Duration option ${option.label}`}
-                      width={200}
-                      height={200}
-                      className="h-8 w-8 object-cover rounded-full"
-                      priority
-                    />
-                    <p className="text-[13px] font-extrabold text-gray-800">
-                      {option.value} a.m.
-                    </p>
-                    {option.label === "Classic" && (
-                      <span className="text-[10px] bg-amber-300 px-1 rounded-2xl absolute -bottom-[7px] ">
-                        {" "}
-                        ★ Popular
-                      </span>
-                    )}
-                  </div>
-                  <div className="p-2">
-                    <h1 className="text-xs font-bold text-gray-600">
-                      {option.label}
-                    </h1>
-                    <p className="text-[10px] tracking-tight text-gray-400">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h4 className="font-medium">{option.label}</h4>
+                    <p className="text-xs text-gray-500">
                       {option.description}
                     </p>
                   </div>
+                  <div className="text-lg font-semibold">{option.value}</div>
                 </div>
               </div>
             ))}
-            <div className="w-full col-span-3 text-gray-600 text-[10px] flex justify-center rounded-lg">
-              OR
-            </div>
-            <h3 className="w-full col-span-3 flex justify-center text-xs text-gray-600">
-              Adjust the number of hours manually
-            </h3>
-            <div className="w-full col-span-3  flex items-center justify-center gap-1">
-              <button
-                type="button"
-                className="w-8 h-8 text-sm rounded-full font-bold bg-blue-500 text-white hover:bg-blue-600 cursor-pointer"
-                onClick={() => adjustTime(false)}
-              >
-                -
-              </button>
-              <span className="text-lg font-semibold">{selectedTime} a.m.</span>
-              <button
-                type="button"
-                className="w-8 h-8 text-sm rounded-full font-bold bg-blue-500 text-white hover:bg-blue-600 cursor-pointer"
-                onClick={() => adjustTime(true)}
-              >
-                +
-              </button>
-            </div>
           </div>
         );
       default:
@@ -598,46 +460,27 @@ const AddressPopup = () => {
 
   const currentStepData = popupSteps[currentStep];
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateStep()) {
-      try {
-        // Here you would typically send the data to your backend
-        console.log("Submitting form data:", formData);
-
-        // Show success message
-        alert("Your details have been uploaded successfully.");
-
-        // Reset form and close popup
-        setShowAddressPopup(false);
-        setCurrentStep(0);
-        setFormData({});
-        setSelectedImages([]);
-      } catch (error) {
-        console.error("Error submitting form:", error);
-        alert("There was an error submitting your request. Please try again.");
-      }
-    }
-  };
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed mt-5 inset-0 z-50 flex items-center justify-center overflow-hidden">
       <div
-        className="fixed inset-0  bg-black opacity-50"
+        className="fixed inset-0 bg-black opacity-50"
         onClick={() => setShowAddressPopup(false)}
       ></div>
 
-      <div className="bg-white text-black rounded-lg px-8 py-3 w-full max-w-[24rem] mx-4 relative z-50 overflow-y-auto min-h-[32rem] max-h-[90vh] flex flex-col">
+      <div className="h-[32rem] max-h-[100vh] bg-white text-black rounded-lg px-8 py-3 w-full max-w-[24rem] mx-4 relative z-50 overflow-y-auto">
         <div
-          className="flex my-2 justify-between items-center cursor-pointer"
+          className="flex justify-end items-center cursor-pointer"
           onClick={() => setShowAddressPopup(false)}
         >
-          <h3 className="text-sm">Electrician</h3>
-          <RxCross2 className="text-lg -mr-5" />
+          <RxCross2 className="text-lg" />
         </div>
 
         {/* Step indicator */}
-
+        <h3 className="text-sm">
+          {currentStepData.id === 7 || currentStepData.id === 8
+            ? null
+            : "Electrician"}
+        </h3>
         <h2
           className={`text-2xl font-bold mb-4 ${
             currentStepData.title === "Request a Service" && "text-center"
@@ -646,7 +489,7 @@ const AddressPopup = () => {
           {currentStepData.title}
         </h2>
 
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <form onSubmit={(e) => e.preventDefault()}>
           {currentStepData.fields.map((field) => (
             <div key={field.name}>
               {renderField(field)}
@@ -660,7 +503,7 @@ const AddressPopup = () => {
           {(currentStep === 0 || currentStep === 1 || currentStep === 2) && (
             <div className="mt-4 bg-blue-50 p-3 rounded-lg flex items-start gap-2">
               <BiSolidCheckShield className="h-5 w-5 text-blue-500 mt-0.5" />
-              <p className="text-[9px] font-semibold  text-gray-600">
+              <p className="text-[8px] tracking-wide font-medium text-gray-600">
                 {currentStepData.info}
               </p>
             </div>
@@ -739,13 +582,9 @@ const AddressPopup = () => {
                 Request a Service <span>&gt;</span>{" "}
                 <span className="font-bold">Electrician</span>{" "}
               </p>
-              <div className="flex flex-col gap-4 mt-4 max-h-[300px] pr-2 overflow-y-auto  modern-scrollbar">
+              <div className="flex flex-col gap-4 mt-4">
                 {currentStepData.images.map((image, index) => (
-                  <div
-                    key={index}
-                    onClick={handleNext}
-                    className="flex flex-col items-start"
-                  >
+                  <div key={index} onClick={handleNext} className="flex flex-col items-start">
                     <div className="flex items-center gap-4">
                       <Image
                         src={image}
@@ -761,34 +600,10 @@ const AddressPopup = () => {
               </div>
             </div>
           )}
-
-          <div
-            className={`${
-              currentStep !== popupSteps.length - 1 && "hidden"
-            } absolute bottom-10 left-0 right-0 flex justify-center gap-4`}
-          >
-            <button
-              type="button"
-              onClick={handleBack}
-              className="px-10 py-2 bg-black text-xs text-white rounded-full cursor-pointer"
-            >
-              Back
-            </button>
-            <button
-              type="submit"
-              className="px-10 py-2 bg-[#D9A562] text-xs text-white rounded-full cursor-pointer"
-            >
-              Submit
-            </button>
-          </div>
         </form>
 
         {currentStepData.id === 7 || currentStepData.id === 8 ? null : (
-          <div
-            className={`${
-              currentStep === popupSteps.length - 1 && "hidden"
-            } absolute bottom-10 left-0 right-0 flex justify-center gap-4`}
-          >
+          <div className="absolute bottom-10 left-0 right-0 flex justify-center gap-4">
             <button
               type="button"
               onClick={handleBack}
@@ -801,7 +616,7 @@ const AddressPopup = () => {
               onClick={handleNext}
               className="px-10 py-2 bg-[#D9A562] text-xs text-white rounded-full  cursor-pointer"
             >
-              Next
+              {currentStep === popupSteps.length - 1 ? "Submit" : "Next"}
             </button>
           </div>
         )}

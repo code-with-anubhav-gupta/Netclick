@@ -242,7 +242,7 @@ const AddressPopup = () => {
 
   const renderField = (field) => {
     const commonClasses =
-      "w-full px-6 py-2 border border-gray-400 rounded-4xl mb-1 focus:outline-none placeholder:text-sm"; // Removed placeholder:px-3 and increased px to 6
+      "w-full px-3 py-2 border border-gray-400 rounded-4xl mb-1 focus:outline-none placeholder:text-sm placeholder:px-3";
 
     switch (field.type) {
       case "text":
@@ -261,7 +261,7 @@ const AddressPopup = () => {
               }`}
               value={formData[field.name] || ""}
               onChange={(e) => handleInputChange(e, field.name)}
-              maxLength={field.name === "title" ? 80 : undefined}
+              maxLength={field.name === "title" ? 80 : undefined} // Set maxLength to 80 for title field
             />
           </div>
         );
@@ -282,7 +282,7 @@ const AddressPopup = () => {
             className={`${
               field.type === "text"
                 ? commonClasses
-                : "w-full px-6 py-2 border border-gray-400 rounded-xl mb-1 focus:outline-none placeholder:text-sm"
+                : "w-full px-3 py-2 border border-gray-400 rounded-xl mb-1 focus:outline-none placeholder:text-sm placeholder:px-3"
             } mt-2 min-h-[100px]`}
             value={formData[field.name] || ""}
             onChange={(e) => handleInputChange(e, field.name)}
@@ -307,7 +307,7 @@ const AddressPopup = () => {
               value={formData[field.name] || ""}
               onChange={(e) => handleInputChange(e, field.name)}
             />
-            <button className="bg-[#DDA25F] absolute bottom-[9px] right-3 text-white h-8 w-8 flex items-center justify-center rounded-full cursor-pointer">
+            <button className="bg-[#DDA25F] absolute bottom-[9px] right-3 text-white h-8 w-8  flex items-center justify-center rounded-full cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 rounded-full"
@@ -413,11 +413,9 @@ const AddressPopup = () => {
             <div className="flex flex-wrap gap-2 mb-2">
               {selectedImages.map((img, index) => (
                 <div key={index} className="relative w-20 h-20">
-                  <Image
+                  <img
                     src={img.url}
                     alt={`Upload ${index + 1}`}
-                    width={100}
-                    height={100}
                     className="w-full h-full object-cover rounded"
                   />
                   <button

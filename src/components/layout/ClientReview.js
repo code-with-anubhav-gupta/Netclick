@@ -5,6 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 import { FaStar } from "react-icons/fa";
+import Image from "next/image";
 
 const clientReviews = [
   {
@@ -83,8 +84,8 @@ const ClientReview = () => {
               isEnd
                 ? "bg-gray-100 border-gray-200 cursor-not-allowed"
                 : "bg-white border-gray-400 hover:border-gray-300"
-                // ? "opacity-50 cursor-not-allowed"
-                // : "hover:border-gray-300"
+              // ? "opacity-50 cursor-not-allowed"
+              // : "hover:border-gray-300"
             }`}
             disabled={isEnd}
           >
@@ -152,9 +153,11 @@ const ClientReview = () => {
                   {review.review}
                 </p>
                 <div className="flex items-center">
-                  <img
+                  <Image
                     src={review.clientImage}
                     alt="Client"
+                    width={100}
+                    height={100}
                     className="rounded-full w-8 h-8 mr-2"
                   />
                   <span className="text-sm font-medium">
