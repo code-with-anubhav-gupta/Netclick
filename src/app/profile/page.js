@@ -69,137 +69,6 @@ export default function Page() {
     }
   };
 
-  const ProfileView = () => (
-    <div className="min-h-screen bg-white flex items-center justify-center py-12 px-4">
-      <div className="max-w-md w-full text-black rounded-3xl shadow-2xl overflow-hidden">
-        <div className="relative flex flex-col items-center">
-          <div className="w-24 h-24 rounded-full overflow-hidden mb-2 relative group">
-            <Image
-              src="https://picsum.photos/500/500?random=1"
-              alt="Profile"
-              width={96}
-              height={96}
-              className="w-full h-full object-cover"
-              priority
-            />
-            {/* Edit Icon Overlay */}
-            <div
-              className="absolute inset-0  transition-opacity duration-200 cursor-pointer flex items-center justify-center"
-              onClick={() => fileInputRef.current.click()}
-            >
-              <div className="absolute right-0 bottom-3  bg-white rounded-full  shadow-lg">
-                <Image
-                  src="/assets/image/edit.png"
-                  alt="Edit"
-                  width={20}
-                  height={20}
-                  className="object-contain w-[20] h-[20]"
-                  priority
-                />
-              </div>
-            </div>
-          </div>
-          <h2 className="text-lg font-semibold text-gray-900">
-            {profileData.name}
-          </h2>
-          <p className="text-sm text-gray-500">{profileData.location}</p>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            ref={fileInputRef}
-            className="hidden"
-          />
-        </div>
-        <div className="p-6 space-y-2">
-          <hr className=" border-gray-300 "></hr>
-
-          <div className="flex justify-between items-center ">
-            <span className="text-gray-600 font-bold">Date of Birth</span>
-            <span className="text-gray-800">{profileData.dob}</span>
-          </div>
-          <hr className=" border-gray-300 "></hr>
-
-          <div className="flex justify-between items-center ">
-            <span className="text-gray-600 font-bold">Notification</span>
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <span className="text-gray-500">New Course</span>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  className="sr-only peer"
-                  checked={notifications.newCourse}
-                  onChange={() => handleNotificationToggle("newCourse")}
-                />
-                <div
-                  className={`w-11 h-6 rounded-full peer transition-all duration-500 ease-in-out ${
-                    notifications.newCourse ? "bg-orange-400" : "bg-gray-200"
-                  }`}
-                >
-                  <div
-                    className={`absolute w-4 h-4 bg-white rounded-full shadow transform transition-all duration-500 ease-in-out ${
-                      notifications.newCourse
-                        ? "translate-x-6"
-                        : "translate-x-1"
-                    } top-1`}
-                  />
-                </div>
-              </label>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-gray-500">New Messages</span>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  className="sr-only peer"
-                  checked={notifications.newMessages}
-                  onChange={() => handleNotificationToggle("newMessages")}
-                />
-                <div
-                  className={`w-11 h-6 rounded-full peer transition-all duration-500 ease-in-out ${
-                    notifications.newMessages ? "bg-orange-400" : "bg-gray-200"
-                  }`}
-                >
-                  <div
-                    className={`absolute w-4 h-4 bg-white rounded-full shadow transform transition-all duration-500 ease-in-out ${
-                      notifications.newMessages
-                        ? "translate-x-6"
-                        : "translate-x-1"
-                    } top-1`}
-                  />
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <div className="space-y-2 pt-4">
-            <hr className=" border-gray-300 "></hr>
-
-            <div className="text-gray-500 cursor-pointer hover:text-gray-700">
-              Terms And Conditions
-            </div>
-            <div className="text-gray-500 cursor-pointer hover:text-gray-700">
-              Privacy Policy
-            </div>
-            <div className="text-gray-500 cursor-pointer hover:text-gray-700">
-              Help
-            </div>
-          </div>
-
-          <button
-            onClick={() => setStep(1)}
-            className="w-full mt-4 py-3 px-4 bg-orange-400 hover:bg-orange-500 text-white font-medium rounded-full transition duration-200"
-          >
-            Edit
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-
   const EditView = () => {
     const [formData, setFormData] = useState({
       address: profileData.address,
@@ -388,7 +257,140 @@ export default function Page() {
   // Main render
   return (
     <>
-      {step === 0 && <ProfileView />}
+      {step === 0 && (
+        <div className="min-h-screen bg-white flex items-center justify-center py-12 px-4">
+          <div className="max-w-md w-full text-black rounded-3xl shadow-2xl overflow-hidden">
+            <div className="relative flex flex-col items-center">
+              <div className="w-24 h-24 rounded-full overflow-hidden mb-2 relative group">
+                <Image
+                  src="https://picsum.photos/500/500?random=1"
+                  alt="Profile"
+                  width={96}
+                  height={96}
+                  className="w-full h-full object-cover"
+                  priority
+                />
+                {/* Edit Icon Overlay */}
+                <div
+                  className="absolute inset-0  transition-opacity duration-200 cursor-pointer flex items-center justify-center"
+                  onClick={() => fileInputRef.current.click()}
+                >
+                  <div className="absolute right-0 bottom-3  bg-white rounded-full  shadow-lg">
+                    <Image
+                      src="/assets/image/edit.png"
+                      alt="Edit"
+                      width={20}
+                      height={20}
+                      className="object-contain w-[20] h-[20]"
+                      priority
+                    />
+                  </div>
+                </div>
+              </div>
+              <h2 className="text-lg font-semibold text-gray-900">
+                {profileData.name}
+              </h2>
+              <p className="text-sm text-gray-500">{profileData.location}</p>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                ref={fileInputRef}
+                className="hidden"
+              />
+            </div>
+            <div className="p-6 space-y-2">
+              <hr className=" border-gray-300 "></hr>
+
+              <div className="flex justify-between items-center ">
+                <span className="text-gray-600 font-bold">Date of Birth</span>
+                <span className="text-gray-800">{profileData.dob}</span>
+              </div>
+              <hr className=" border-gray-300 "></hr>
+
+              <div className="flex justify-between items-center ">
+                <span className="text-gray-600 font-bold">Notification</span>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-500">New Course</span>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="sr-only peer"
+                      checked={notifications.newCourse}
+                      onChange={() => handleNotificationToggle("newCourse")}
+                    />
+                    <div
+                      className={`w-11 h-6 rounded-full peer transition-all duration-500 ease-in-out ${
+                        notifications.newCourse
+                          ? "bg-orange-400"
+                          : "bg-gray-200"
+                      }`}
+                    >
+                      <div
+                        className={`absolute w-4 h-4 bg-white rounded-full shadow transform transition-all duration-500 ease-in-out ${
+                          notifications.newCourse
+                            ? "translate-x-6"
+                            : "translate-x-1"
+                        } top-1`}
+                      />
+                    </div>
+                  </label>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-500">New Messages</span>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="sr-only peer"
+                      checked={notifications.newMessages}
+                      onChange={() => handleNotificationToggle("newMessages")}
+                    />
+                    <div
+                      className={`w-11 h-6 rounded-full peer transition-all duration-500 ease-in-out ${
+                        notifications.newMessages
+                          ? "bg-orange-400"
+                          : "bg-gray-200"
+                      }`}
+                    >
+                      <div
+                        className={`absolute w-4 h-4 bg-white rounded-full shadow transform transition-all duration-500 ease-in-out ${
+                          notifications.newMessages
+                            ? "translate-x-6"
+                            : "translate-x-1"
+                        } top-1`}
+                      />
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div className="space-y-2 pt-4">
+                <hr className=" border-gray-300 "></hr>
+
+                <div className="text-gray-500 cursor-pointer hover:text-gray-700">
+                  Terms And Conditions
+                </div>
+                <div className="text-gray-500 cursor-pointer hover:text-gray-700">
+                  Privacy Policy
+                </div>
+                <div className="text-gray-500 cursor-pointer hover:text-gray-700">
+                  Help
+                </div>
+              </div>
+
+              <button
+                onClick={() => setStep(1)}
+                className="w-full mt-4 py-3 px-4 bg-orange-400 hover:bg-orange-500 text-white font-medium rounded-full transition duration-200"
+              >
+                Edit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {step === 1 && <EditView />}
       {step === 2 && <DocumentUploadView />}
     </>
