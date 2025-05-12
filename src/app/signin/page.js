@@ -1,7 +1,30 @@
+'use client'
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
+import { postData } from '@/lib/api';
+import { useAppContext } from "@/context/Context";
 
 const Page = () => {
+  const {userLoginData, setUserLoginData} = useAppContext()
+  const router = useRouter();
+  const handleChange = (e) =>{
+    const {name, value} = e.target;
+    setUserLoginData((prevData) => ({...prevData, [name]: value}))
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await postData("/auth/login/", userLoginData);
+      console.log(response)
+      document.cookie = `token=${response.data.token}; path=/;`;
+     router.push('/customer')
+    } catch (error) {
+      console.error("Error fetching data", error);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-white flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 text-black p-8 rounded-xl shadow-2xl">
@@ -14,6 +37,7 @@ const Page = () => {
                 width={100}
                 height={100}
                 className="w-[160px] h-[150px] object-contain sm:mx-auto"
+                priority
               />
               <h1 className="text-3xl font-bold text-gray-900 text-left">
                 Login
@@ -22,7 +46,7 @@ const Page = () => {
           </div>
         </div>
 
-        <form className="mt-8 space-y-6">
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-5">
             <div>
               <div className="flex items-center border-b-2 border-gray-200 py-2">
@@ -43,6 +67,9 @@ const Page = () => {
                 </span>
                 <input
                   type="email"
+                  name="email"
+                  value={userLoginData.email}
+                  onChange={handleChange}
                   placeholder="Email"
                   className="w-full pl-3 focus:outline-none"
                 />
@@ -67,6 +94,9 @@ const Page = () => {
                 </span>
                 <input
                   type="password"
+                  name="password"
+                  value={userLoginData.password}
+                  onChange={handleChange}
                   placeholder="Password"
                   className="w-full pl-3 focus:outline-none"
                 />
@@ -85,7 +115,8 @@ const Page = () => {
             className="w-full py-3 px-4 bg-orange-400 hover:bg-orange-500 text-white font-medium rounded-full transition duration-200"
           >
             {" "}
-            <Link href="/customer">Sign In</Link>
+            {/* <Link href="/customer">Sign In</Link> */}
+            Sign In
           </button>
 
           {/* <div className="text-center text-sm text-gray-500">
