@@ -1,10 +1,11 @@
 "use client";
-import { getData, postData } from "@/lib/api";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useAppContext } from "@/context/Context";
+import { category, handleSignup } from "../services/itemService";
+import { Toaster } from "react-hot-toast";
 // import { cookies } from "next/headers";
 
 const Page = () => {
@@ -15,13 +16,7 @@ const Page = () => {
   const { userSignupData, setUserSignupData } = useAppContext();
 
   const handleCategory = async () => {
-    try {
-      const response = await getData("/services");
-      setCategories(response.data || []);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-      setCategories([]);
-    }
+    await category(setCategories)
   };
 
   useEffect(() => {
@@ -37,66 +32,18 @@ const Page = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      // Prepare the signup data
-      const signupData = {
-        username: userSignupData.username,
-        phone: userSignupData.phone,
-        email: userSignupData.email,
-        password: userSignupData.password,
-      };
-
-      // Add provider specific data if signing up as a provider
-      if (isProvider && userSignupData.category) {
-        // Find the selected category from categories array
-        const selectedCategory = categories.find(
-          (cat) => cat.id === userSignupData.category
-        );
-        if (selectedCategory) {
-          signupData.type = selectedCategory.name; // Send category name as type
-          signupData.category = selectedCategory.id; // Send category ID as category
-        }
-      } else {
-        signupData.type = "user";
-      }
-
-      const response = await postData("/auth/signup/", signupData);
-
-      console.log(response);
-
-      if (response.success) {
-        // Store the token if provided
-        if (response.data?.token) {
-          document.cookie = `token=${response.data.token}; path=/;`;
-          document.cookie = `type=${response.data.user.type}; path=/;`;
-
-          // cookies().set("token", token, {
-          //   httpOnly: true, // prevent access from JS
-          //   secure: true, // only send over HTTPS
-          //   sameSite: "lax",
-          //   path: "/",
-          //   maxAge: 60 * 60 * 24 * 7, // 1 week
-          // });
-
-          // cookies().set("type", type, {
-          //   httpOnly: false, // you might want access from client
-          //   path: "/",
-          // });
-        }
-        // Redirect based on user type
-        router.push(isProvider ? "/provider" : "/customer");
-      } else {
-        console.error("Signup failed:", response.message);
-        setError(response.message || "Signup failed");
-      }
-    } catch (error) {
-      console.error("Error during signup:", error);
-      setError("An error occurred during signup");
-    }
+    await handleSignup({
+      userSignupData,
+      router,
+      isProvider,
+      categories,
+      setError,
+    });
   };
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
+      <Toaster position="top-right" />
       <div className="max-w-md w-full space-y-8  text-black p-8 rounded-xl shadow-2xl">
         <div className="text-left space-y-6">
           <div className="relative flex flex-col sm:block items-start">
@@ -107,6 +54,7 @@ const Page = () => {
                 width={100}
                 height={100}
                 className="  w-[120px] h-[150px] object-contain sm:mx-auto"
+                priority
               />
               <h1 className="text-3xl font-bold text-gray-900 text-left">
                 SignUp

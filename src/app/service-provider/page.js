@@ -5,10 +5,12 @@ import NavbarLayout from "@/components/common/NavbarLayout";
 import FooterLayout from "@/components/common/FooterLayout";
 import ServiceProviderLeftLayout from "@/components/features/ServiceProviderLeftLayout";
 import ServiceProviderRightLayout from "@/components/features/ServiceProviderRightLayout";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const page = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <ProtectedRoute allowedRoles={['provider']} >
+      <div className="min-h-screen bg-white">
       <NavbarLayout />
 
       <main className="max-w-7xl mx-auto px-4 py-8">
@@ -22,6 +24,8 @@ const page = () => {
       {/* Social Media Sidebar */}
       <SocialMediaSidebar />
     </div>
+    </ProtectedRoute>
+    
   );
 };
 

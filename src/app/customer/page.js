@@ -51,7 +51,7 @@ export default function Page() {
   };
 
   const profileView = (
-    <ProtectedRoute>
+    <ProtectedRoute allowedRoles={['user']} >
       <div className="min-h-screen bg-white  flex items-center justify-center py-12 px-4">
         <div className="max-w-md w-full  text-black rounded-3xl shadow-2xl overflow-hidden">
           <div className="relative h-32">
