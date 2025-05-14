@@ -10,12 +10,12 @@ const FreelanceProfileLeft = () => {
   return (
     <div className="mx-auto flex flex-col items-center w-full md:w-1/4 px-4 md:px-0">
       <div className="relative  max-w-xs">
-        <img
-          src="https://images.pexels.com/photos/1963075/pexels-photo-1963075.jpeg"
+        <Image
+          src="/assets/image/Women1.jpg"
           alt="Profile"
           className="rounded-2xl h-64 w-full object-cover"
-          // width={100}
-          // height={100}
+          width={100}
+          height={100}
         />
         <div className="absolute bottom-4 right-0 bg-[#D9A562] text-sm text-black font-semibold px-3 py-1 rounded-l-full">
           $15/h

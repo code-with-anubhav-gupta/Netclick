@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { images } from "../../../public/assets/image/index.js";
+import { useEffect, useState } from "react";
+import { category } from "@/app/services/itemService.js";
 
 const categories = [
   { name: "Plumber", available: 20, image: images.Plumber },
@@ -18,6 +20,11 @@ const categories = [
 ];
 
 const FeaturedCategories = () => {
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    category(setCategories);
+  }, []);
+
   return (
     <section className="max-w-7xl mx-auto my-12 px-4 md:px-24 relative">
       <div className="grid grid-cols-1 md:grid-cols-3 items-center mb-6">
@@ -73,7 +80,7 @@ const FeaturedCategories = () => {
         </motion.div>
       </div>
       <motion.div
-        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 max-sm:gap-4"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 max-sm:gap-4"
         initial="hidden"
         animate="visible"
         variants={{
@@ -86,9 +93,9 @@ const FeaturedCategories = () => {
           },
         }}
       >
-        {categories.map((category, index) => (
+        {categories.map((category) => (
           <motion.div
-            key={index}
+            key={category.id}
             variants={{
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0 },
@@ -111,7 +118,8 @@ const FeaturedCategories = () => {
               transition={{ duration: 0.5 }}
             >
               <Image
-                src={category.image}
+                // src={category.image}
+                src="/assets/image/CarWash.png"
                 alt={category.name}
                 width={300}
                 height={300}
@@ -127,7 +135,7 @@ const FeaturedCategories = () => {
               <div className="flex flex-col items-start text-left">
                 <h3 className="font-bold">{category.name}</h3>
                 <p className="text-xs text-gray-500">
-                  {category.available} Skills Available
+                  20 Skills Available
                 </p>
               </div>
             </span>

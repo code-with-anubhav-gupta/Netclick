@@ -23,7 +23,11 @@ const Navbar = () => {
   const toggleDrawer = () => setDrawerOpen(!drawerOpen);
 
   return (
-    <header className={`bg-white mx-auto relative ${!shouldShowBlogLink ? " border-gray-200 border-b" : ""}`}>
+    <header
+      className={`bg-white mx-auto relative ${
+        !shouldShowBlogLink ? " border-gray-200 border-b" : ""
+      }`}
+    >
       <div className="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto relative">
         <div className="flex justify-center items-center">
           <Link href="/">
@@ -55,7 +59,10 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <a href="provider" className="text-gray-500 hover:text-amber-500">
+                <a
+                  href="provider"
+                  className="text-gray-500 hover:text-amber-500"
+                >
                   Freelancers
                 </a>
               </li>
@@ -123,7 +130,10 @@ const Navbar = () => {
               <FaRegCircleUser className="h-4 w-4 mr-1" />
               Sign in
             </Link>
-            <Link href='#' className="bg-[#1C1914] text-white px-1 py-2 font-light sm:px-3 sm:py-2 md:px-4 md:py-2 rounded-lg md:rounded-4xl hover:text-[#F5B23D] cursor-pointer text-sm">
+            <Link
+              href="#"
+              className="bg-[#1C1914] text-white px-1 py-2 font-light sm:px-3 sm:py-2 md:px-4 md:py-2 rounded-lg md:rounded-4xl hover:text-[#F5B23D] cursor-pointer text-sm"
+            >
               Contact us
             </Link>
           </div>
@@ -270,7 +280,10 @@ const Navbar = () => {
             ) : (
               <>
                 <li className="pt-4">
-                  <Link href='/signin' className="flex items-center justify-center w-full text-gray-800 font-light text-sm px-3 py-2 rounded-4xl border border-amber-500 hover:outline hover:outline-amber-500 cursor-pointer">
+                  <Link
+                    href="/signin"
+                    className="flex items-center justify-center w-full text-gray-800 font-light text-sm px-3 py-2 rounded-4xl border border-amber-500 hover:outline hover:outline-amber-500 cursor-pointer"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-4 w-4 mr-1"

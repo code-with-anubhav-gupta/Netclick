@@ -22,10 +22,10 @@ export default function UnauthorizedPage() {
         />
 
         <h1 className="text-4xl font-bold text-gray-800 mb-4">
-          403 - Unauthorized
+          404 - Not Found
         </h1>
         <p className="text-gray-600 mb-6">
-          Sorry, you don’t have permission to access this page.
+          Could not find requested resource...
         </p>
 
         <Link href="/">
