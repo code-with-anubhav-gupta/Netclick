@@ -2,10 +2,13 @@
 import { FaCheck } from "react-icons/fa";
 import { useAppContext } from "@/context/Context";
 import AddressPopup from "../common/AddressPopup";
+// import MainPopup from "../popup/MainPopup"
 import Image from "next/image";
+import { useState } from "react";
 
 const FreelanceProfileLeft = () => {
-  const { setShowAddressPopup } = useAppContext();
+  const { showAddressPopup, setShowAddressPopup } = useAppContext();
+  const [popUP, setPopUP] = useState("address");
 
   return (
     <div className="mx-auto flex flex-col items-center w-full md:w-1/4 px-4 md:px-0">
@@ -112,6 +115,23 @@ const FreelanceProfileLeft = () => {
         </div>
       </div>
       <AddressPopup />
+      {/* {showAddressPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div
+            className="fixed inset-0 bg-black opacity-50"
+            onClick={() => setShowAddressPopup(false)}
+          ></div>
+
+          <div className="bg-white text-black rounded-lg px-8 py-3 w-full max-w-[24rem] mx-4 relative z-50 overflow-y-auto min-h-[32rem] max-h-[90vh] flex flex-col">
+            <div
+              className="flex my-2 justify-between items-center cursor-pointer"
+              onClick={() => setShowAddressPopup(false)}
+            >
+              <h1>Hello POp-up</h1>
+            </div>
+          </div>
+        </div>
+      )} */}
     </div>
   );
 };

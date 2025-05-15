@@ -1,24 +1,21 @@
 "use client";
+export const dynamic = "force-dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useAppContext } from "@/context/Context";
 import { category, handleSignup } from "../services/itemService";
 import { Toaster } from "react-hot-toast";
 // import { cookies } from "next/headers";
 
 const Page = () => {
+  const context = useAppContext();
   const router = useRouter();
   const [isProvider, setIsProvider] = useState(false);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState("");
-  const [userSignupData, setUserSignupData] = useState({
-    username: "",
-    phone: "",
-    category: "",
-    email: "",
-    password: "",
-  });
+  const { userSignupData, setUserSignupData } = context || {};
 
   const handleCategory = async () => {
     await category(setCategories);

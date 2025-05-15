@@ -9,7 +9,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 
 const page = () => {
   return (
-    <ProtectedRoute allowedRoles={['provider']} >
+    <ProtectedRoute allowedRoles={['provider', 'user']} >
       <div className="min-h-screen bg-white">
       <NavbarLayout />
 

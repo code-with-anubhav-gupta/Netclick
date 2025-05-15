@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getTokenFromCookie, getUserRoleFromCookie } from "@/lib/auth";
-import LoadingPage from "@/app/loading/page";
+import LoadingPage from "@/components/common/LoadingPage";
 
 export default function ProtectedRoute({ children, allowedRoles = [] }) {
   const router = useRouter();
@@ -12,8 +12,6 @@ export default function ProtectedRoute({ children, allowedRoles = [] }) {
   useEffect(() => {
     const token = getTokenFromCookie();
     const type = getUserRoleFromCookie();
-    console.log("token is:-", token);
-    console.log("Type is:-", type);
 
     if (!token) {
       router.replace("/signin");

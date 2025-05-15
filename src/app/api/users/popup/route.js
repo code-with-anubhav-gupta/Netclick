@@ -13,20 +13,31 @@ export async function POST(req) {
     const body = await req.json();
 
     // Basic validation
-    if (!body.email || !body.password ) {
+    if (
+      // !body.mainService ||
+      // !body.availableService ||
+      !body.timeDuration ||
+      !body.providerCount ||
+      !body.days ||
+      !body.time ||
+      !body.address ||
+      !body.telephone ||
+      !body.customerOtherDetail
+    ) {
       return NextResponse.json(
-        { message: "Email and password are required" },
+        { message: "Fill the all fields" },
         { status: 400 }
       );
     }
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-
-    const data = await res.json();
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/request-service`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      }
+    );
 
     if (!res.ok) {
       return NextResponse.json(
@@ -37,6 +48,8 @@ export async function POST(req) {
         { status: res.status }
       );
     }
+
+    const data = await res.json();
 
     return NextResponse.json({ data }, { status: 200 });
   } catch (error) {

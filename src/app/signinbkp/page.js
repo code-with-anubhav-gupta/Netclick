@@ -1,16 +1,16 @@
 "use client";
+export const dynamic = "force-dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAppContext } from "@/context/Context";
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { handleLogin } from "../services/itemService";
 
 const Page = () => {
-  const [userLoginData, setUserLoginData] = useState({
-    email: "",
-    password: "",
-  });
+  const context = useAppContext();
+  const { userLoginData, setUserLoginData } = context || {};
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const router = useRouter();

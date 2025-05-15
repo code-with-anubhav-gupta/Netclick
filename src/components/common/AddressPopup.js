@@ -8,8 +8,9 @@ import { BsImage } from "react-icons/bs";
 import Link from "next/link";
 import Image from "next/image";
 import { HiMiniCheckCircle } from "react-icons/hi2";
-import { getCountries } from "react-phone-number-input/input";
-import en from "react-phone-number-input/locale/en";
+import { category } from "@/app/services/itemService";
+import { getTokenFromCookie } from "@/lib/auth";
+import toast from "react-hot-toast";
 
 const AddressPopup = () => {
   const { showAddressPopup, setShowAddressPopup } = useAppContext();
@@ -28,6 +29,12 @@ const AddressPopup = () => {
   const [selectedCountryIndex, setSelectedCountryIndex] = useState(
     countryCodesList.findIndex((country) => country.shortName === "AE")
   );
+
+  const [categories, setCategories] = useState([]);
+  const [availableServices, setAvailableServices] = useState([]);
+  useEffect(() => {
+    category(setCategories);
+  }, []);
 
   useEffect(() => {
     if (showAddressPopup) {
@@ -106,10 +113,37 @@ const AddressPopup = () => {
     }
   };
 
+  const handleServiceClick = async (name, value) => {
+    setFormData({ ...formData, [name]: value });
+
+    const playload = { mainService: value };
+
+    const response = await fetch(
+      "http://20.244.1.102:5005/api/v1/services/sub-services",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }), // only if token exists
+        },
+        body: JSON.stringify(playload),
+      }
+    );
+    const data = await response.json();
+    if (response.ok) {
+      setAvailableServices(data.data);
+    } else {
+      console.error("Error submitting service request:", response.status);
+      toast.error(
+        "There was an error submitting your service request. Please try again."
+      );
+    }
+  };
+
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    if (files.length + selectedImages.length > 3) {
-      alert("You can only upload up to 3 images");
+    if (files.length + selectedImages.length > 5) {
+      toast.error("You can only upload up to 5 images");
       return;
     }
 
@@ -159,7 +193,7 @@ const AddressPopup = () => {
         // Only proceed if Next button is clicked (not auto-proceed)
         if (currentStep === popupSteps.length - 1) {
           // Handle final step submission
-          alert("Your details have been uploaded successfully.");
+          toast.success("Your details have been uploaded successfully.");
           setShowAddressPopup(false);
           setCurrentStep(0);
           setFormData({});
@@ -171,7 +205,7 @@ const AddressPopup = () => {
         // For non-photo steps, proceed normally
         if (currentStep === popupSteps.length - 1) {
           // Handle final step submission
-          alert("Your details have been uploaded successfully.");
+          toast.success("Your details have been uploaded successfully.");
           setShowAddressPopup(false);
           setCurrentStep(0);
           setFormData({});
@@ -291,7 +325,7 @@ const AddressPopup = () => {
       case "date":
         return (
           <input
-            type="datetime-local"
+            type="date"
             className={commonClasses}
             value={formData[field.name] || ""}
             onChange={(e) => handleInputChange(e, field.name)}
@@ -429,7 +463,7 @@ const AddressPopup = () => {
                   </button>
                 </div>
               ))}
-              {selectedImages.length < 3 && (
+              {selectedImages.length < 5 && (
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
@@ -598,24 +632,94 @@ const AddressPopup = () => {
 
   const currentStepData = popupSteps[currentStep];
 
+  const token = getTokenFromCookie();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateStep()) {
+      console.log(formData.mainService);
+      console.log(formData.availableService);
       try {
-        // Here you would typically send the data to your backend
-        console.log("Submitting form data:", formData);
+        const data = {
+          mainService: formData.mainService,
+          availableService: formData.availableService,
+          timeDuration: formData.serviceDuration,
+          providerCount: formData.providersCount,
+          days: formData.preferredDate,
+          time: formData.preferredTime,
+          address: formData.address,
+          telephone: formData.phone,
+          customerOtherDetail: {
+            title: formData.title,
+            description: formData.details,
+          },
+          photos: formData.images,
+        };
 
-        // Show success message
-        alert("Your details have been uploaded successfully.");
+        console.log("Data we want to send", data);
 
-        // Reset form and close popup
-        setShowAddressPopup(false);
-        setCurrentStep(0);
-        setFormData({});
-        setSelectedImages([]);
+        const formDataToSend = new FormData();
+        formDataToSend.append("mainService", formData.mainService);
+        formDataToSend.append("availableService", formData.availableService);
+        formDataToSend.append("timeDuration", formData.serviceDuration);
+        formDataToSend.append("providerCount", formData.providersCount);
+        formDataToSend.append("days", formData.preferredDate);
+        formDataToSend.append("time", formData.preferredTime);
+        formDataToSend.append("address", formData.address);
+        formDataToSend.append("telephone", formData.phone);
+        formDataToSend.append("customerOtherDetail", {
+          title: formData.title,
+          description: formData.details,
+        });
+        formDataToSend.append("photos", formData.images);
+
+        // Append each key-value pair
+        Object.entries(formData.image).forEach(([key, value]) => {
+          if (key === "images" && Array.isArray(formData.images)) {
+            formData.images.forEach((imgFile) => {
+              formDataToSend.append("images", imgFile);
+            });
+          } else {
+            formDataToSend.append(key, value);
+          }
+        });
+
+        console.log(formDataToSend)
+
+        const response = await fetch(
+          "http://20.244.1.102:5005/api/v1/service-requests",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              ...(token && { Authorization: `Bearer ${token}` }), // only if token exists
+            },
+            // body: JSON.stringify(data),
+           body: formDataToSend,
+          }
+        );
+
+        console.log(response);
+
+        if (response.ok) {
+          toast.success(
+            "Your service request has been submitted successfully."
+          );
+          setShowAddressPopup(false);
+          setCurrentStep(0);
+          setFormData({});
+          setSelectedImages([]);
+        } else {
+          console.error("Error submitting service request:", response.status);
+          toast.error(
+            "There was an error submitting your service request. Please try again."
+          );
+        }
       } catch (error) {
         console.error("Error submitting form:", error);
-        alert("There was an error submitting your request. Please try again.");
+        toast.error(
+          "There was an error submitting your request. Please try again."
+        );
       }
     }
   };
@@ -718,14 +822,22 @@ const AddressPopup = () => {
 
           {currentStepData.id === 7 && (
             <div className="grid grid-cols-3 gap-4 mt-4">
-              {currentStepData.images.map((image, index) => (
-                <div key={index} className="flex flex-col items-center">
+              {categories.map((category) => (
+                <div
+                  key={category.id}
+                  onClick={() => {
+                    handleServiceClick("mainService", category.id);
+                    handleNext();
+                  }}
+                  className="flex flex-col items-center"
+                >
                   <Image
-                    src={image}
-                    alt={`Service ${index + 1}`}
+                    src="/assets/image/Plumber.png"
+                    alt={category.name}
+                    value={formData.alt || "Services"}
                     width={80}
                     height={80}
-                    onClick={handleNext}
+                    // onClick={handleNext}
                     className="rounded-lg hover:scale-105 transition-transform cursor-pointer object-cover"
                   />
                 </div>
@@ -740,21 +852,28 @@ const AddressPopup = () => {
                 <span className="font-bold">Electrician</span>{" "}
               </p>
               <div className="flex flex-col gap-4 mt-4 max-h-[300px] pr-2 overflow-y-auto  modern-scrollbar">
-                {currentStepData.images.map((image, index) => (
+                {availableServices.map((availableService) => (
                   <div
-                    key={index}
-                    onClick={handleNext}
+                    key={availableService.id}
+                    // onClick={handleNext}
+                    onClick={(e) => {
+                      setFormData({
+                        ...formData,
+                        ["availableService"]: availableService.name,
+                      });
+                      handleNext();
+                    }}
                     className="flex flex-col items-start"
                   >
                     <div className="flex items-center gap-4">
                       <Image
-                        src={image}
-                        alt={`Service ${index + 1}`}
+                        src="/assets/image/Plumber.png"
+                        alt={availableService.name}
                         width={80}
                         height={80}
                         className="rounded-lg hover:scale-105 transition-transform cursor-pointer object-cover"
                       />
-                      <p className="text-xs">Lorem ipsum dolor sit.</p>
+                      <p className="text-xs">{availableService.name}.</p>
                     </div>
                   </div>
                 ))}

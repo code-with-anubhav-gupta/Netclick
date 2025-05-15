@@ -6,17 +6,7 @@ const AppContext = createContext();
 export function AppProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [showAddressPopup, setShowAddressPopup] = useState(false);
-  const [userLoginData, setUserLoginData] = useState({
-    email: "",
-    password: "",
-  });
-  const [userSignupData, setUserSignupData] = useState({
-    username: "",
-    phone: "",
-    category:"",
-    email: "",
-    password: "",
-  });
+ 
 
   useEffect(() => {
     setTimeout(() => {
@@ -31,10 +21,6 @@ export function AppProvider({ children }) {
         setLoading,
         showAddressPopup,
         setShowAddressPopup,
-        userLoginData,
-        setUserLoginData,
-        userSignupData,
-        setUserSignupData,
       }}
     >
       {children}

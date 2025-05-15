@@ -66,7 +66,7 @@ export const handleLogin = async ({
 export const category = async (setCategories) => {
   try {
     const response = await getData(
-      `${process.env.NEXT_PUBLIC_API_URL}/services`
+      '/api/users/category'
     );
     setCategories(response.data || []);
   } catch (error) {
@@ -125,7 +125,7 @@ export const handleSignup = async ({
       );
 
       // Navigate to respective dashboard
-      router.push(user.type === "user" ? "/customer" : "/provider");
+      router.push('/');
     } else {
       toast.error("Signup failed");
       setError(response.message || "Signup failed");
