@@ -58,10 +58,10 @@ const Page = () => {
                 alt="Login Graphic"
                 width={100}
                 height={100}
-                className="  w-[120px] h-[150px] object-contain sm:mx-auto"
+                className=" w-[120px] h-[150px] object-contain sm:mx-auto"
                 priority
               />
-              <h1 className="text-3xl font-bold text-gray-900 text-left">
+              <h1 className="text-3xl  font-bold text-gray-900 text-left">
                 SignUp
               </h1>
             </div>
@@ -209,17 +209,17 @@ const Page = () => {
 
           <button
             type="submit"
-            className="w-full py-2 sm:py-3 bg-orange-400 hover:bg-orange-500 text-white font-semibold transition duration-200 rounded-[20px]"
+            className="w-full py-2 sm:py-3 bg-[#E99A18] hover:bg-orange-500 text-white font-semibold transition duration-200 rounded-4xl"
           >
             Sign Up
           </button>
         </form>
 
         <p className="text-center text-sm text-gray-600">
-          Don&apos;t have Account?{" "}
+          Don&apos;t have an Account?{" "}
           <Link
             href="/signin"
-            className="text-orange-400 hover:text-orange-500 italic font-bold underline"
+            className="text-[#EBA22B] hover:text-orange-500 italic font-bold underline"
           >
             Sign in
           </Link>

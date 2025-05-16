@@ -10,7 +10,7 @@ const HeroSection = () => {
   const popularServices = ["Plumber", "Carpentry", "Electrician", "Interior"];
 
   return (
-    <section className="bg-[url('/assets/image/background.jpg')] bg-cover bg-center text-white max-w-7xl mx-auto px-4 sm:px-6 md:px-10 rounded-4xl overflow-hidden relative">
+    <section className="bg-[url('/assets/image/background.jpg')] bg-cover bg-center text-white max-w-[1220px] mx-auto px-4 sm:px-6 md:px-10 rounded-4xl overflow-hidden">
       <div className="flex flex-col-reverse md:flex-row items-center">
         <div className="w-full md:w-1/2 p-6 sm:p-8 md:p-10 flex flex-col justify-center text-center md:text-left">
           <p className="text-[#DDA25F] mb-2 font-bold text-xs sm:text-sm md:text-base">
@@ -87,7 +87,7 @@ const HeroSection = () => {
               {popularServices.map((service, index) => (
                 <span
                   key={index}
-                  className="px-4 py-1 border border-white rounded-full text-xs cursor-pointer"
+                  className="px-3 py-1 border border-white rounded-full text-xs cursor-pointer"
                 >
                   {service}
                 </span>

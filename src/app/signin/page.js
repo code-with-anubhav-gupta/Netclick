@@ -134,7 +134,7 @@ const Page = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full py-3 px-4 bg-orange-400 hover:bg-orange-500 text-white font-medium rounded-full transition duration-200 ${
+            className={`w-full py-3 px-4 bg-[#E99A18] hover:bg-orange-500 text-white font-medium rounded-full transition duration-200 ${
               isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
@@ -168,10 +168,10 @@ const Page = () => {
           </button>
 
           <p className="text-center text-sm text-gray-600">
-            Don&apos;t have Account?{" "}
+            Don&apos;t have an Account?{" "}
             <Link
               href="/signup"
-              className="text-orange-400 hover:text-orange-500 font-medium italic underline bold"
+              className="text-[#EBA22B] hover:text-orange-500 font-medium italic underline bold"
             >
               Sign up
             </Link>

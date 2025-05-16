@@ -15,12 +15,12 @@ const Footer = () => {
             <p className="text-[0.6rem] sm:text-sm text-gray-500">
               Copyright © 2025 netclic All Rights Reserved.
             </p>
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center mr-1">
               <Link href="#">
                 <Image
                   src={images.Facebook}
                   alt="Facebook"
-                  height={45}
+                  height={45} 
                   width={45}
                   className="object-cover"
                 />
@@ -47,7 +47,7 @@ const Footer = () => {
           </div>
         </footer>
       ) : (
-        <footer className="bg-gray-50 py-12 border-t border-gray-200 text-black -mt-5 md:mt-8">
+        <footer className="bg-gray-50 py-12 border-t border-gray-300 text-black -mt-5 md:mt-8">
           <div className="max-w-6xl mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
               <div>

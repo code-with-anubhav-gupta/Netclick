@@ -113,9 +113,7 @@ const AddressPopup = () => {
     }
   };
 
-  const handleServiceClick = async (name, value) => {
-    setFormData({ ...formData, [name]: value });
-
+  const handleServiceClick = async (value) => {
     const playload = { mainService: value };
 
     const response = await fetch(
@@ -634,57 +632,72 @@ const AddressPopup = () => {
 
   const token = getTokenFromCookie();
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateStep()) {
-      console.log(formData.mainService);
-      console.log(formData.availableService);
       try {
         const data = {
-          mainService: formData.mainService,
-          availableService: formData.availableService,
-          timeDuration: formData.serviceDuration,
-          providerCount: formData.providersCount,
-          days: formData.preferredDate,
-          time: formData.preferredTime,
-          address: formData.address,
-          telephone: formData.phone,
+          mainService: String(formData.mainService),
+          availableService: String(formData.availableService),
+          timeDuration: Number(formData.serviceDuration),
+          providerCount: Number(formData.providersCount),
+          days: [formData.preferredDate],
+          time: String(formData.preferredTime),
+          address: String(formData.address),
+          telephone: Number(formData.phone),
           customerOtherDetail: {
-            title: formData.title,
-            description: formData.details,
+            title: String(formData.title),
+            description: String(formData.details),
           },
-          photos: formData.images,
+          photos: [],
         };
+
+        // const data = {
+        //   mainService: "Cleaning",
+        //   availableService: "Window Cleaning",
+        //   timeDuration: 2,
+        //   providerCount: 1,
+        //   days: ["2025-04-01"],
+        //   time: "10:00",
+        //   address: "123 Main St",
+        //   telephone: 1234567890,
+        //   customerOtherDetail: {
+        //     title: "Expert Cleaner",
+        //     description: "Experienced in window cleaning",
+        //   },
+        //   photos: [],
+        // };
 
         console.log("Data we want to send", data);
 
-        const formDataToSend = new FormData();
-        formDataToSend.append("mainService", formData.mainService);
-        formDataToSend.append("availableService", formData.availableService);
-        formDataToSend.append("timeDuration", formData.serviceDuration);
-        formDataToSend.append("providerCount", formData.providersCount);
-        formDataToSend.append("days", formData.preferredDate);
-        formDataToSend.append("time", formData.preferredTime);
-        formDataToSend.append("address", formData.address);
-        formDataToSend.append("telephone", formData.phone);
-        formDataToSend.append("customerOtherDetail", {
-          title: formData.title,
-          description: formData.details,
-        });
-        formDataToSend.append("photos", formData.images);
+        // const formDataToSend = new FormData();
+        // formDataToSend.append("mainService", formData.mainService);
+        // formDataToSend.append("availableService", formData.availableService);
+        // formDataToSend.append("timeDuration", formData.serviceDuration);
+        // formDataToSend.append("providerCount", formData.providersCount);
+        // formDataToSend.append("days", formData.preferredDate);
+        // formDataToSend.append("time", formData.preferredTime);
+        // formDataToSend.append("address", formData.address);
+        // formDataToSend.append("telephone", formData.phone);
+        // formDataToSend.append("customerOtherDetail", {
+        //   title: formData.title,
+        //   description: formData.details,
+        // });
+        // formDataToSend.append("photos", formData.images);
 
-        // Append each key-value pair
-        Object.entries(formData.image).forEach(([key, value]) => {
-          if (key === "images" && Array.isArray(formData.images)) {
-            formData.images.forEach((imgFile) => {
-              formDataToSend.append("images", imgFile);
-            });
-          } else {
-            formDataToSend.append(key, value);
-          }
-        });
+        // // Append each key-value pair
+        // Object.entries(formData.image).forEach(([key, value]) => {
+        //   if (key === "images" && Array.isArray(formData.images)) {
+        //     formData.images.forEach((imgFile) => {
+        //       formDataToSend.append("images", imgFile);
+        //     });
+        //   } else {
+        //     formDataToSend.append(key, value);
+        //   }
+        // });
 
-        console.log(formDataToSend)
+        // console.log(formDataToSend)
 
         const response = await fetch(
           "http://20.244.1.102:5005/api/v1/service-requests",
@@ -694,12 +707,12 @@ const AddressPopup = () => {
               "Content-Type": "application/json",
               ...(token && { Authorization: `Bearer ${token}` }), // only if token exists
             },
-            // body: JSON.stringify(data),
-           body: formDataToSend,
+            body: JSON.stringify(data),
+            //  body: formDataToSend,
           }
         );
 
-        console.log(response);
+        console.log(response, "request-servicesResposne--------------------");
 
         if (response.ok) {
           toast.success(
@@ -764,7 +777,7 @@ const AddressPopup = () => {
           {(currentStep === 0 || currentStep === 1 || currentStep === 2) && (
             <div className="mt-4 bg-blue-50 p-3 rounded-lg flex items-start gap-2">
               <BiSolidCheckShield className="h-5 w-5 text-blue-500 mt-0.5" />
-              <p className="text-[9px] font-semibold  text-gray-600">
+              <p className="text-[10px] tracking-tight font-semibold  text-gray-600">
                 {currentStepData.info}
               </p>
             </div>
@@ -826,7 +839,11 @@ const AddressPopup = () => {
                 <div
                   key={category.id}
                   onClick={() => {
-                    handleServiceClick("mainService", category.id);
+                    setFormData({
+                      ...formData,
+                      ["mainService"]: category.name,
+                    });
+                    handleServiceClick(category.id);
                     handleNext();
                   }}
                   className="flex flex-col items-center"
@@ -840,6 +857,7 @@ const AddressPopup = () => {
                     // onClick={handleNext}
                     className="rounded-lg hover:scale-105 transition-transform cursor-pointer object-cover"
                   />
+                  <span className="text-xs text-zinc-500">{category.name}</span>
                 </div>
               ))}
             </div>
@@ -906,7 +924,7 @@ const AddressPopup = () => {
           <div
             className={`${
               currentStep === popupSteps.length - 1 && "hidden"
-            } absolute bottom-10 left-0 right-0 flex justify-center gap-4`}
+            } absolute bottom-10 left-0 right-0 flex justify-center gap-3`}
           >
             <button
               type="button"

@@ -13,7 +13,7 @@ const HowItWorks = () => {
         </p>
 
         <div className="flex flex-wrap justify-center gap-10">
-          <div className="w-full md:w-1/4 relative p-6 bg-white border-2 border-[#E8E3E3] rounded-2xl">
+          <div className="w-full md:w-1/4 relative p-6 bg-white border-2 border-gray-300 rounded-2xl">
             <div className="absolute -top-10 right-5 text-[#E8E3E3] bg-white text-6xl font-[1000]">
               01
             </div>
@@ -22,14 +22,14 @@ const HowItWorks = () => {
                 Post a<br />
                 Service
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-600">
                 After you post a job, our matching system identifies and alerts
                 relevant Provider, who can then express interest in your job.
               </p>
             </div>
           </div>
 
-          <div className="w-full md:w-1/4 relative p-6 bg-white border-2 border-[#E8E3E3] rounded-2xl">
+          <div className="w-full md:w-1/4 relative p-6 bg-white border-2 border-gray-300 rounded-2xl">
             <div className="absolute -top-10 right-5 text-[#E8E3E3] bg-white text-6xl font-[1000]">
               02
             </div>
@@ -38,14 +38,14 @@ const HowItWorks = () => {
                 Getting Booked
                 <br />& Job done
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-600">
                 After you post a job, our matching system identifies and alerts
                 relevant Provider, who can then express interest in your job.
               </p>
             </div>
           </div>
 
-          <div className="w-full md:w-1/4 relative p-6 bg-white border-2 border-[#E8E3E3] rounded-2xl">
+          <div className="w-full md:w-1/4 relative p-6 bg-white border-2 border-gray-300 rounded-2xl">
             <div className="absolute -top-10 right-5 text-[#E8E3E3] bg-white text-6xl font-[1000]">
               03
             </div>
@@ -54,7 +54,7 @@ const HowItWorks = () => {
                 Get Reviewd
                 <br />& Get Leads
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-600">
                 After you post a job, our matching system identifies and alerts
                 relevant Provider, who can then express interest in your job.
               </p>
@@ -62,7 +62,7 @@ const HowItWorks = () => {
           </div>
         </div>
 
-        <div className="-mt-5 md:ml-30 flex justify-center">
+        <div className="-mt-5 md:-mt-10 md:ml-30 flex justify-center">
           <div className="relative">
             <Image
               src="/assets/image/Girl-with-laptop.png"

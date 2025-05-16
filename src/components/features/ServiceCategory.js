@@ -16,7 +16,7 @@ const ServiceCategory = () => {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
         {serviceCategories.map((category, index) => (
           <Link key={index} href={`/services/${category.title.toLowerCase().replace(/\s+/g, "-")}`}>
-            <span className="flex flex-col items-center justify-center min-w-[80px] p-3 hover:shadow-2xl">
+            <span className="flex flex-col items-center justify-center gap-3 min-w-[80px] p-3 hover:shadow-2xl">
               <Image
                 src={category.image}
                 alt={category.title}
