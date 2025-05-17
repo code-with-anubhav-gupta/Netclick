@@ -6,7 +6,7 @@
 // import { FaRegCircleUser } from "react-icons/fa6";
 // import { IoMdArrowDropdown } from "react-icons/io";
 // import ServiceProviderSidebarContent from "../features/ServiceProviderSidebarContent";
-// import { getTokenFromCookie, getgetUserRoleFromCookie } from "@/lib/auth";
+// import { getTokenFromCookie, getUserRoleFromCookie } from '@/lib/auth';
 
 // const Navbar = () => {
 //   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,7 +14,7 @@
 //   const [drawerOpen, setDrawerOpen] = useState(false);
 
 //   const token = getTokenFromCookie()
-//   const type = getgetUserRoleFromCookie()
+//   const type = getUserRoleFromCookie()
 
 //   const pathname = usePathname();
 //   const shouldShowBlogLink = pathname === "/";
@@ -634,7 +634,8 @@ const Navbar = () => {
   const toggleDrawer = () => setDrawerOpen(!drawerOpen);
 
   const isLoggedIn = !!userInfo;
-  const isProvider = userInfo?.type === "provider";
+  // const isProvider = userInfo?.type === "provider";
+  const isProvider = userInfo;
 
   return (
     <header
@@ -725,7 +726,7 @@ const Navbar = () => {
                 </span>
               </Link>
               {shouldShowAccountHamberger && (
-                <button className=" text-amber-500 py-2 rounded-lg">
+                <button className="text-amber-500 py-2 rounded-lg">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="34"
@@ -733,7 +734,7 @@ const Navbar = () => {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2"
+                    strokeWidth="3"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
@@ -850,7 +851,7 @@ const Navbar = () => {
             )}
 
             {isLoggedIn ? (
-              <>
+              <div className="flex items-center justify-between">
                 <Link href='/account'>
                   <li className="flex items-center space-x-2">
                     <Image
@@ -865,10 +866,10 @@ const Navbar = () => {
                     </span>
                   </li>
                 </Link>
-                {/* {isProvider && (
+                {isProvider && (
                   <li>
                     <button
-                      className="text-amber-500 py-2 rounded-lg"
+                      className="text-amber-500 py-2 cursor-pointer rounded-lg"
                       onClick={toggleDrawer}
                     >
                       <svg
@@ -888,8 +889,8 @@ const Navbar = () => {
                       </svg>
                     </button>
                   </li>
-                )} */}
-              </>
+                )}
+              </div>
             ) : (
               <>
                 <li>
@@ -913,11 +914,11 @@ const Navbar = () => {
         {/* Provider Sidebar Drawer */}
         {isProvider && drawerOpen && (
           <div
-            className="absolute top-0 left-0 w-full h-screen z-40 bg-black bg-opacity-20"
+            className="absolute top-0 left-0 w-full h-screen z-40 bg-opacity-20"
             onClick={toggleDrawer}
           >
             <div
-              className="absolute top-0 right-0 h-full w-4/5 bg-white rounded-2xl p-4 z-50 overflow-y-auto"
+              className="absolute top-0 right-0 h-full w-4/5 rounded-2xl p-4 z-50 overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <ServiceProviderSidebarContent

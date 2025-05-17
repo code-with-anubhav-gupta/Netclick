@@ -22,7 +22,7 @@ const ServiceProviderCurrentRequest = () => {
       <h2 className="text-xl font-bold text-gray-900 mb-6">Current Requests</h2>
       <div className="space-y-4">
         {RequestCard.map((request, index) => (
-          <div key={index} className="px-4 border-2 border-gray-200 rounded-lg">
+          <div key={index} className="px-4 border-2 border-gray-300 rounded-lg">
             <div className="flex gap-5 items-center">
               <Image
                 src={request.icon}

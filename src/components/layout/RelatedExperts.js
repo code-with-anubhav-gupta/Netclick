@@ -173,12 +173,13 @@ const RelatedExperts = () => {
                   <Image
                     src={expert.image}
                     alt={expert.name}
-                    width={100}
-                    height={100}
-                    className="w-full h-full bg-cover "
+                    width={150}
+                    height={50}
+                    className="w-full h-full object-cover"
+                    priority
                   />
                 </div>
-                <div className="absolute top-0 right-0 text-gray-600 px-2 py-1 rounded-full text-sm font-bold">
+                <div className="absolute top-0 right-2 text-gray-600 px-2 py-1 rounded-full text-xs font-bold">
                   ${expert.hourlyRate}/h
                 </div>
               </div>
@@ -186,7 +187,7 @@ const RelatedExperts = () => {
                 <h4 className="text-sm font-bold">{expert.name}</h4>
                 <p className="text-xs text-gray-600">{expert.role}</p>
                 <div className="flex items-center mt-1">
-                  <span className="text-[#F4BB44] text-sm font-bold">★</span>
+                  <span className="text-[#F4BB44] font-bold">★</span>
                   <span className="text-xs font-bold ml-1">
                     {expert.rating}
                   </span>
@@ -198,7 +199,7 @@ const RelatedExperts = () => {
                   {expert.qualities.map((quality, idx) => (
                     <span
                       key={idx}
-                      className="inline-block bg-[#E6EDED] rounded-lg px-2 py-1 text-xs text-gray-600"
+                      className="inline-block bg-[#e6eded] rounded-lg px-2 py-1 text-xs text-gray-600"
                     >
                       {quality}
                     </span>

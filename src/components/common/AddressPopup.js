@@ -492,7 +492,7 @@ const AddressPopup = () => {
             ))}
           </div>
         );
-      case "number-selector":
+        // case "number-selector":
         return (
           <div className="flex items-center justify-center gap-6">
             <button
@@ -530,6 +530,45 @@ const AddressPopup = () => {
             </button>
           </div>
         );
+      case "number-selector":
+        return (
+          <div className="flex items-center justify-center gap-6">
+            <button
+              type="button"
+              className="w-10 h-10 rounded-full text-2xl bg-blue-500 text-white hover:bg-blue-600 cursor-pointer"
+              onClick={() => {
+                const currentValue = Number(formData[field.name] || 1);
+                if (currentValue > (field.min ?? 1)) {
+                  handleInputChange(
+                    { target: { value: currentValue - 1 } },
+                    field.name
+                  );
+                }
+              }}
+            >
+              -
+            </button>
+            <span className="text-3xl font-semibold">
+              {formData[field.name] || 1}
+            </span>
+            <button
+              type="button"
+              className="w-10 h-10 rounded-full text-2xl bg-blue-500 text-white hover:bg-blue-600 cursor-pointer"
+              onClick={() => {
+                const currentValue = Number(formData[field.name] || 1);
+                if (currentValue < field.max) {
+                  handleInputChange(
+                    { target: { value: currentValue + 1 } },
+                    field.name
+                  );
+                }
+              }}
+            >
+              +
+            </button>
+          </div>
+        );
+
       case "duration-selector":
         return (
           <div className="grid  grid-cols-3 gap-1">
@@ -632,87 +671,113 @@ const AddressPopup = () => {
 
   const token = getTokenFromCookie();
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (validateStep()) {
+  //     try {
+  //       let timeDuration = formData.serviceDuration;
+  //       timeDuration = Number(timeDuration.split(":")[0]);
+
+  //       console.log(typeof formData.images[0])
+
+  //       const data = {
+  //         // userId: formData.userId, // ✅ Ensure this is in your formData
+  //         mainService: formData.mainService,
+  //         availableService: formData.availableService,
+  //         timeDuration,
+  //         providerCount: Number(formData.providersCount),
+  //         days: [formData.preferredDate],
+  //         time: formData.preferredTime,
+  //         address: formData.address,
+  //         telephone: Number(formData.phone),
+  //         customerOtherDetail: {
+  //           title: formData.title,
+  //           description: formData.details,
+  //         },
+  //         photos: Array.isArray(formData.images)
+  //           ? formData.images.map((img) => typeof img === "object" ? img : "")
+  //           : [],
+  //       };
+  //       console.log(data)
+
+  //       const response = await fetch("http://20.244.1.102:5005/api/v1/service-requests", {
+  //         method: "POST",
+  //         headers: {
+  //           'Content-Type': 'application/json', // ✅ Needed
+  //           ...(token && { Authorization: `Bearer ${token}` }),
+  //         },
+  //         body: JSON.stringify(data),
+  //       });
+
+  //       console.log(response)
+
+  //       if (response.ok) {
+  //         toast.success("Your service request has been submitted successfully.");
+  //         setShowAddressPopup(false);
+  //         setCurrentStep(0);
+  //         setFormData({});
+  //         setSelectedImages([]);
+  //       } else {
+  //         const errorText = await response.text();
+  //         console.error("Submission failed:", response.status, errorText);
+  //         toast.error("There was an error submitting your service request.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //       toast.error("Submission error. Please try again.");
+  //     }
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (validateStep()) {
       try {
-        const data = {
-          mainService: String(formData.mainService),
-          availableService: String(formData.availableService),
-          timeDuration: Number(formData.serviceDuration),
-          providerCount: Number(formData.providersCount),
-          days: [formData.preferredDate],
-          time: String(formData.preferredTime),
-          address: String(formData.address),
-          telephone: Number(formData.phone),
-          customerOtherDetail: {
-            title: String(formData.title),
-            description: String(formData.details),
-          },
-          photos: [],
-        };
+        const timeDuration = Number(formData.serviceDuration.split(":")[0]);
 
-        // const data = {
-        //   mainService: "Cleaning",
-        //   availableService: "Window Cleaning",
-        //   timeDuration: 2,
-        //   providerCount: 1,
-        //   days: ["2025-04-01"],
-        //   time: "10:00",
-        //   address: "123 Main St",
-        //   telephone: 1234567890,
-        //   customerOtherDetail: {
-        //     title: "Expert Cleaner",
-        //     description: "Experienced in window cleaning",
-        //   },
-        //   photos: [],
-        // };
+        // Ensure providerCount is at least 1
+        const providerCount = Math.max(1, Number(formData.providersCount) || 1);
 
-        console.log("Data we want to send", data);
+        console.log(providerCount);
 
-        // const formDataToSend = new FormData();
-        // formDataToSend.append("mainService", formData.mainService);
-        // formDataToSend.append("availableService", formData.availableService);
-        // formDataToSend.append("timeDuration", formData.serviceDuration);
-        // formDataToSend.append("providerCount", formData.providersCount);
-        // formDataToSend.append("days", formData.preferredDate);
-        // formDataToSend.append("time", formData.preferredTime);
-        // formDataToSend.append("address", formData.address);
-        // formDataToSend.append("telephone", formData.phone);
-        // formDataToSend.append("customerOtherDetail", {
-        //   title: formData.title,
-        //   description: formData.details,
-        // });
-        // formDataToSend.append("photos", formData.images);
+        const formDataToSend = new FormData();
 
-        // // Append each key-value pair
-        // Object.entries(formData.image).forEach(([key, value]) => {
-        //   if (key === "images" && Array.isArray(formData.images)) {
-        //     formData.images.forEach((imgFile) => {
-        //       formDataToSend.append("images", imgFile);
-        //     });
-        //   } else {
-        //     formDataToSend.append(key, value);
-        //   }
-        // });
+        formDataToSend.append("mainService", formData.mainService);
+        formDataToSend.append("availableService", formData.availableService);
+        formDataToSend.append("timeDuration", timeDuration);
+        formDataToSend.append("providerCount", providerCount);
+        formDataToSend.append("days[]", formData.preferredDate); // If multiple dates, loop them
+        formDataToSend.append("time", formData.preferredTime);
+        formDataToSend.append("address", formData.address);
+        formDataToSend.append("telephone", formData.phone);
 
-        // console.log(formDataToSend)
+        // Customer Details (nested object)
+        formDataToSend.append("customerOtherDetail[title]", formData.title);
+        formDataToSend.append(
+          "customerOtherDetail[description]",
+          formData.details
+        );
+
+        // Append image files
+        (formData.images || []).forEach((file) => {
+          formDataToSend.append("photos", file); // backend should expect 'photos' as multipart files
+        });
+
+        console.log(formDataToSend);
 
         const response = await fetch(
           "http://20.244.1.102:5005/api/v1/service-requests",
           {
             method: "POST",
             headers: {
-              "Content-Type": "application/json",
-              ...(token && { Authorization: `Bearer ${token}` }), // only if token exists
+              ...(token && { Authorization: `Bearer ${token}` }), // DO NOT manually set Content-Type for FormData
             },
-            body: JSON.stringify(data),
-            //  body: formDataToSend,
+            body: formDataToSend,
           }
         );
 
-        console.log(response, "request-servicesResposne--------------------");
+        console.log(response);
 
         if (response.ok) {
           toast.success(
@@ -723,16 +788,17 @@ const AddressPopup = () => {
           setFormData({});
           setSelectedImages([]);
         } else {
-          console.error("Error submitting service request:", response.status);
-          toast.error(
-            "There was an error submitting your service request. Please try again."
+          const errorText = await response.text();
+          console.error(
+            "Error submitting service request:",
+            response.status,
+            errorText
           );
+          toast.error("There was an error submitting your request.");
         }
       } catch (error) {
-        console.error("Error submitting form:", error);
-        toast.error(
-          "There was an error submitting your request. Please try again."
-        );
+        console.error("Submission error:", error);
+        toast.error("Something went wrong while submitting.");
       }
     }
   };

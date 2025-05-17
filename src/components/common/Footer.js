@@ -20,7 +20,7 @@ const Footer = () => {
                 <Image
                   src={images.Facebook}
                   alt="Facebook"
-                  height={45} 
+                  height={45}
                   width={45}
                   className="object-cover"
                 />
@@ -87,7 +87,7 @@ const Footer = () => {
                     />
                   </Link>
                 </div>
-                <p className="ml-3 text-xs text-gray-500 mt-6">
+                <p className="ml-3 text-xs text-gray-500 mt-4">
                   Copyright © 2025 netclic
                   <br />
                   All Rights Reserved.
@@ -95,7 +95,7 @@ const Footer = () => {
               </div>
 
               <div>
-                <h4 className="font-medium mb-4">Discover</h4>
+                <h4 className="text-sm font-medium mb-4">Discover</h4>
                 <ul className="space-y-2 text-sm">
                   <li>
                     <Link
@@ -192,7 +192,7 @@ const Footer = () => {
               </div>
 
               <div>
-                <h4 className="font-medium mb-4">Useful information</h4>
+                <h4 className="text-sm font-medium mb-4">Useful information</h4>
                 <ul className="space-y-2 text-sm">
                   <li>
                     <Link
@@ -324,25 +324,25 @@ const Footer = () => {
               </div>
 
               <div>
-                <h4 className="font-medium mb-4">Download the mobile app</h4>
+                <h4 className="text-sm font-medium mb-4">Download the mobile app</h4>
                 <div className="flex space-x-2">
                   <Link href="#">
                     <Image
                       src={images.Apple}
-                      width={900}
-                      height={900}
+                      width={150}
+                      height={50}
                       alt="App Store"
-                      className="bg-cover md:rounded-lg"
+                      className="object-contain md:rounded-lg"
                       priority
                     />
                   </Link>
                   <Link href="#">
                     <Image
                       src={images.Google}
-                      width={900}
-                      height={900}
+                      width={150}
+                      height={50}
                       alt="Google Play"
-                      className="bg-cover md:rounded-lg"
+                      className="object-contain md:rounded-lg"
                       priority
                     />
                   </Link>

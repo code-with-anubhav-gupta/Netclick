@@ -148,7 +148,7 @@ const ClientReview = () => {
                     <FaStar key={star} className="text-[#F7C401] mr-1" />
                   ))}
                 </div>
-                <h4 className="font-medium mb-2">{review.title}</h4>
+                <h4 className="font-bold mb-2">{review.title}</h4>
                 <p className="text-xs tracking-tight text-gray-600 mb-4">
                   {review.review}
                 </p>

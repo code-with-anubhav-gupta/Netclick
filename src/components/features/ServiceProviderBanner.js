@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const ServiceProviderBanner = () => {
   return (
     <section
@@ -16,7 +14,7 @@ const ServiceProviderBanner = () => {
           <p className="opacity-80 text-[10px] mb-3 sm:text-base ">
             Be smart, become a sponsor!
           </p>
-          <button className="bg-[#dfa460] text-[10px] sm:text-xs px-4 md:px-8 md:py-2 lg:px-10 max-sm:py-0.8 sm:py-3 mb-5 cursor-pointer rounded-4xl">
+          <button className="bg-[#dfa460] text-[10px] sm:text-xs px-4 md:px-8 md:py-3 lg:px-15 max-sm:py-0.8 sm:py-3 mb-5 cursor-pointer rounded-4xl">
             Discover
           </button>
         </div>

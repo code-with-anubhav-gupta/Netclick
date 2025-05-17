@@ -101,7 +101,7 @@ const ServiceProviderLeft = () => {
                 <h3 className=" text-xs font-bold text-gray-500">
                   Invite Friends
                 </h3>
-                <p className="text-[10px] tracking-tighter text-gray-500">
+                <p className=" text-[9px] text-gray-800">
                   Earn 5% of the amount your friends spend, for life.
                 </p>
               </div>
